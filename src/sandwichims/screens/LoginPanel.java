@@ -2,12 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package sandwichims;
+package sandwichims.screens;
 
+import sandwichims.objects.Employee;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import sandwichims.DarkTheme;
+import sandwichims.SimpleHash;
 
 /**
  *
@@ -60,12 +63,13 @@ public class LoginPanel extends JPanel {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (authenticateUser(usernameTextField.getText(), new String(passwordField.getPassword()))){
-                    System.out.println("Authentication successful");
+                Employee employee = authenticateUser(usernameTextField.getText(), new String(passwordField.getPassword()));
+                if (employee != null){
+                    System.out.println("Authentication successful. Hello " + employee.getFirstName());
                     mainFrame.navigateTo("MainMenu");
                 } else {
                     JOptionPane.showMessageDialog(LoginPanel.this, "Invalid username or password.", "Login Error", JOptionPane.ERROR_MESSAGE);
-               }
+                }
            }
         });
         
@@ -86,14 +90,14 @@ public class LoginPanel extends JPanel {
         
 }
     
-    private boolean authenticateUser(String username, String password){
+    private Employee authenticateUser(String username, String password){
             String url = "jdbc:mysql://localhost:3306/SandwichIMS";
             String dbUsername = "root";
             String dbPassword = "root";
             
             String hashedPassword = SimpleHash.hashPassword(password);
             
-            String query = "SELECT * FROM Employee WHERE username = ? AND password = ?";
+            String query = "SELECT firstName, lastName, isManager FROM Employee WHERE username = ? AND password = ?";
             
             try (Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
                     PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -103,11 +107,16 @@ public class LoginPanel extends JPanel {
                     
                     ResultSet rs = stmt.executeQuery();
                     
-                    return rs.next();
+                    if(rs.next()){
+                        String firstName = rs.getString("firstName");
+                        String lastName = rs.getString("lastName");
+                        boolean isManager = rs.getBoolean("isManager");
+                        return new Employee(firstName, lastName, isManager);
+                    }
+                    
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false;
-            }
+            } return null;
     }
 }
 

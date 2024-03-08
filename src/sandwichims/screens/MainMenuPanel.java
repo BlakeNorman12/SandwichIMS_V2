@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package sandwichims;
+package sandwichims.screens;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import sandwichims.DarkTheme;
 
 /**
  *
@@ -35,21 +36,29 @@ public class MainMenuPanel extends JPanel {
         setBackground(Color.DARK_GRAY);
         
         this.mainFrame = mainFrame;
-        setLayout(new FlowLayout());
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 0, 5, 0); 
         
         //Frame Components
         
         JLabel label = new JLabel("Main Menu");
+        label.setHorizontalAlignment(JLabel.CENTER);
+        
         JButton manageEmployeesButton = new JButton("Manage Employees");
         JButton manageInventoryButton = new JButton("Manage Inventory");
         JButton downloadReportButton = new JButton("Download Report");
         
         manageEmployeesButton.addActionListener(e -> mainFrame.navigateTo("ManageEmployees"));
         manageInventoryButton.addActionListener(e -> mainFrame.navigateTo("ManageInventory"));
+        downloadReportButton.addActionListener(e -> JOptionPane.showMessageDialog(mainFrame, "Report Successfully Downloaded"));
         
-        add(label);
-        add(manageEmployeesButton);
-        add(manageInventoryButton);
-        add(downloadReportButton);
+        add(label, gbc);
+        add(manageEmployeesButton, gbc);
+        add(manageInventoryButton, gbc);
+        add(downloadReportButton, gbc);
     }
 }
