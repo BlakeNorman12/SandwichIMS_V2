@@ -28,6 +28,11 @@ public class LoginPanel extends JPanel {
     private MainFrame mainFrame;
     
     public LoginPanel(MainFrame mainFrame) {
+        
+        //Applying dark mode before adding GUI components
+        DarkTheme.applyTheme();
+        setBackground(Color.DARK_GRAY);
+        
         this.mainFrame = mainFrame;
         
         
@@ -60,10 +65,12 @@ public class LoginPanel extends JPanel {
                     mainFrame.navigateTo("MainMenu");
                 } else {
                     JOptionPane.showMessageDialog(LoginPanel.this, "Invalid username or password.", "Login Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+               }
+           }
         });
         
+       
+                
         // Adding components with GridBagConstraints
         add(label, gbc);
         gbc.insets = new Insets(10, 0, 0, 0);
@@ -103,3 +110,4 @@ public class LoginPanel extends JPanel {
             }
     }
 }
+

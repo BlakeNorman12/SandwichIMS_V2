@@ -33,6 +33,10 @@ public class ManageEmployeesPanel extends JPanel {
     
     public ManageEmployeesPanel(MainFrame mainFrame) {
         
+        //Applying dark mode before adding GUI components
+        DarkTheme.applyTheme();
+        setBackground(Color.DARK_GRAY);
+        
         this.mainFrame = mainFrame;
         setLayout(new FlowLayout());
         

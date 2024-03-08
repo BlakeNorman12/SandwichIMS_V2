@@ -59,6 +59,10 @@ public class ManageInventoryPanel extends JPanel {
     
     public ManageInventoryPanel(MainFrame mainFrame) {
         
+        //Applying dark mode before adding GUI components
+        DarkTheme.applyTheme();
+        setBackground(Color.DARK_GRAY);
+        
         this.mainFrame = mainFrame;
         setLayout(new FlowLayout());
         
