@@ -24,7 +24,7 @@ CREATE TABLE Employee (
 
 INSERT INTO Employee (firstName, lastName, username, password, isManager) VALUES
 ('Jordan', 'Levercom', 'jlevercom', '73567e977fbeb14cb66974484e2cf1ae7596b8744bdb7ddfd33457a0a44d5e44', TRUE),
-('Blake', 'Norman', 'bnorman', 'MasterPassword', TRUE),
+('Blake', 'Norman', 'bnorman', '73567e977fbeb14cb66974484e2cf1ae7596b8744bdb7ddfd33457a0a44d5e44', TRUE),
 ('Derrick', 'Strover-Duncan', 'dstrover', '73567e977fbeb14cb66974484e2cf1ae7596b8744bdb7ddfd33457a0a44d5e44', TRUE),
 ('Elias', 'Gomez', 'egomez', '73567e977fbeb14cb66974484e2cf1ae7596b8744bdb7ddfd33457a0a44d5e44', TRUE);
 
