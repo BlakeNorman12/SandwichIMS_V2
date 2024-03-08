@@ -92,7 +92,7 @@ public class LoginPanel extends JPanel {
                     PreparedStatement stmt = conn.prepareStatement(query)) {
                     
                     stmt.setString(1, username);
-                    stmt.setString(2, password);
+                    stmt.setString(2, hashedPassword);
                     
                     ResultSet rs = stmt.executeQuery();
                     
