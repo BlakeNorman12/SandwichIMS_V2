@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import sandwichims.DarkTheme;
+import sandwichims.objects.Employee;
 
 /**
  *
@@ -57,8 +58,9 @@ GRAPH
 public class ManageInventoryPanel extends JPanel {
     
     private MainFrame mainFrame;
+    private Employee employee;
     
-    public ManageInventoryPanel(MainFrame mainFrame) {
+    public ManageInventoryPanel(MainFrame mainFrame, Employee employee) {
         
         //Applying dark mode before adding GUI components
         DarkTheme.applyTheme();
@@ -72,5 +74,9 @@ public class ManageInventoryPanel extends JPanel {
         JLabel label = new JLabel("Manage Inventory");        
         add(label);
 
+    }
+    
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

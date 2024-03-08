@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import sandwichims.DarkTheme;
+import sandwichims.objects.Employee;
 
 /**
  *
@@ -42,8 +43,9 @@ in the "Employees" table of the database.
 public class ModifyEmployeePanel extends JPanel {
     
     private MainFrame mainFrame;
+    private Employee employee;
     
-    public ModifyEmployeePanel(MainFrame mainFrame) {
+    public ModifyEmployeePanel(MainFrame mainFrame, Employee employee) {
         
         //Applying dark mode before adding GUI components
         DarkTheme.applyTheme();
@@ -65,5 +67,9 @@ public class ModifyEmployeePanel extends JPanel {
         
         add(label);
         add(modifyEmployeeButton);
+    }
+    
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

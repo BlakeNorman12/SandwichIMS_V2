@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import sandwichims.DarkTheme;
+import sandwichims.objects.Employee;
 
 /**
  *
@@ -48,8 +49,9 @@ Beautify the GUI, organize the input boxes in an attractive manner.
 public class AddEmployeePanel extends JPanel {
     
     private MainFrame mainFrame;
+    private Employee employee;
     
-    public AddEmployeePanel(MainFrame mainFrame) {
+    public AddEmployeePanel(MainFrame mainFrame, Employee employee) {
         
         //Applying dark mode before adding GUI components
         DarkTheme.applyTheme();
@@ -71,5 +73,9 @@ public class AddEmployeePanel extends JPanel {
         
         add(label);
         add(addEmployeeButton);
+    }
+    
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

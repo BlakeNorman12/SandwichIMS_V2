@@ -8,6 +8,9 @@ package sandwichims.screens;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
+import sandwichims.objects.Employee;
 
 /**
  *
@@ -16,45 +19,100 @@ import java.awt.event.*;
 public class MainFrame extends JFrame {
     
     CardLayout cardLayout = new CardLayout();
-    JPanel cardPanel = new JPanel();
-    
+    JPanel cardPanel = new JPanel(cardLayout);
+    Map<String, JPanel> panels = new HashMap<>();
+    Employee currentEmployee;
+
     public MainFrame() {
-        
         setTitle("***Store Name*** Management System");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        cardPanel.setLayout(cardLayout);
-        
-        //screens
-        
-        LoginPanel loginPanel = new LoginPanel(this);
-        MainMenuPanel mainMenuPanel = new MainMenuPanel(this);
-        ManageEmployeesPanel manageEmployeesPanel = new ManageEmployeesPanel(this);
-        ManageInventoryPanel manageInventoryPanel = new ManageInventoryPanel(this);
-        ModifyEmployeePanel modifyEmployeePanel = new ModifyEmployeePanel(this);
-        AddEmployeePanel addEmployeePanel = new AddEmployeePanel(this);
-        DeleteEmployeePanel deleteEmployeePanel = new DeleteEmployeePanel(this);
-        
-        cardPanel.add(loginPanel, "Login");
-        cardPanel.add(mainMenuPanel, "MainMenu");
-        cardPanel.add(manageEmployeesPanel, "ManageEmployees");
-        cardPanel.add(manageInventoryPanel, "ManageInventory");
-        cardPanel.add(modifyEmployeePanel, "modifyEmployee");
-        cardPanel.add(addEmployeePanel, "addEmployee");
-        cardPanel.add(deleteEmployeePanel, "deleteEmployee");
-        
         add(cardPanel);
-        
-        cardLayout.show(cardPanel, "Login");
-        
+        navigateTo("Login", null); // Initially show the login panel
     }
     
-    public void navigateTo(String panelName){
+    public void navigateTo(String panelName, Employee employee){
+        if (employee != null) {
+            this.currentEmployee = employee; // Update the current employee
+        }
+        
+        if (!panels.containsKey(panelName)) {
+            // Instantiate the panel as needed and add it to the cardPanel and the map
+            JPanel panel = createPanel(panelName, currentEmployee);
+            panels.put(panelName, panel);
+            cardPanel.add(panel, panelName);
+        } else {
+            // If panel exists, update it with the current employee
+            updatePanel(panelName, currentEmployee);
+        }
         
         cardLayout.show(cardPanel, panelName);
-        
     }
+    
+    private JPanel createPanel(String panelName, Employee employee) {
+    switch (panelName) {
+        case "Login":
+            // Login panel likely doesn't need employee information directly
+            return new LoginPanel(this);
+        case "MainMenu":
+            return new MainMenuPanel(this, employee);
+        case "ManageEmployees":
+            // Assuming ManageEmployeesPanel is designed to utilize employee information
+            return new ManageEmployeesPanel(this, employee);
+        case "ManageInventory":
+            // Assuming ManageInventoryPanel might need employee information for permissions, etc.
+            return new ManageInventoryPanel(this, employee);
+        case "ModifyEmployee":
+            // If ModifyEmployeePanel requires employee information to determine permissions
+            return new ModifyEmployeePanel(this, employee);
+        case "AddEmployee":
+            // AddEmployeePanel might not need employee information unless for audit or permissions
+            return new AddEmployeePanel(this, employee);
+        case "DeleteEmployee":
+            // Similarly, DeleteEmployeePanel might use employee for permissions
+            return new DeleteEmployeePanel(this, employee);
+        default:
+            throw new IllegalArgumentException("Unknown panel: " + panelName);
+    }
+}
+
+    private void updatePanel(String panelName, Employee employee) {
+        
+        JPanel panel = panels.get(panelName);
+    
+    if (panel != null) {
+        switch (panelName) {
+            case "MainMenu":
+                if (panel instanceof MainMenuPanel) {
+                    ((MainMenuPanel) panel).setEmployee(employee);
+                }
+                break;
+            case "ManageEmployees":
+                if (panel instanceof ManageEmployeesPanel) {
+                    ((ManageEmployeesPanel) panel).setEmployee(employee);
+                }
+                break;
+            case "ManageInventory":
+                if (panel instanceof ManageInventoryPanel) {
+                    ((ManageInventoryPanel) panel).setEmployee(employee);
+                }
+                break;
+            case "ModifyEmployee":
+                if (panel instanceof ModifyEmployeePanel) {
+                    ((ModifyEmployeePanel) panel).setEmployee(employee);
+                }
+                break;
+            case "AddEmployee":
+                if (panel instanceof AddEmployeePanel) {
+                    ((AddEmployeePanel) panel).setEmployee(employee);
+                }
+                break;
+            case "DeleteEmployee":
+                if (panel instanceof DeleteEmployeePanel) {
+                    ((DeleteEmployeePanel) panel).setEmployee(employee);
+                }
+                break;
+    }}}
     
     public static void main(String[] args){
         SwingUtilities.invokeLater(() -> {

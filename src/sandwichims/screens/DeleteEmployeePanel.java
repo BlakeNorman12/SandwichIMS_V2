@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import sandwichims.DarkTheme;
+import sandwichims.objects.Employee;
 
 /**
  *
@@ -44,8 +45,9 @@ import sandwichims.DarkTheme;
 public class DeleteEmployeePanel extends JPanel {
     
     private MainFrame mainFrame;
+    private Employee employee;
     
-    public DeleteEmployeePanel(MainFrame mainFrame) {
+    public DeleteEmployeePanel(MainFrame mainFrame, Employee employee) {
         
         //Applying dark mode before adding GUI components
         DarkTheme.applyTheme();
@@ -68,4 +70,9 @@ public class DeleteEmployeePanel extends JPanel {
         add(label);
         add(deleteEmployeeButton);
     }
+    
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+    
 }

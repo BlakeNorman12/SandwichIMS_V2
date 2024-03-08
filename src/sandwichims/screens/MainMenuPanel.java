@@ -4,6 +4,7 @@
  */
 package sandwichims.screens;
 
+import sandwichims.objects.Employee;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -28,8 +29,9 @@ where the user can login to their account.
 public class MainMenuPanel extends JPanel {
     
     private MainFrame mainFrame;
+    private Employee employee;
     
-    public MainMenuPanel(MainFrame mainFrame) {
+    public MainMenuPanel(MainFrame mainFrame, Employee employee) {
         
         //Applying dark mode before adding GUI components
         DarkTheme.applyTheme();
@@ -45,20 +47,24 @@ public class MainMenuPanel extends JPanel {
         
         //Frame Components
         
-        JLabel label = new JLabel("Main Menu");
+        JLabel label = new JLabel("Welcome " + employee.getFirstName());
         label.setHorizontalAlignment(JLabel.CENTER);
         
         JButton manageEmployeesButton = new JButton("Manage Employees");
         JButton manageInventoryButton = new JButton("Manage Inventory");
         JButton downloadReportButton = new JButton("Download Report");
         
-        manageEmployeesButton.addActionListener(e -> mainFrame.navigateTo("ManageEmployees"));
-        manageInventoryButton.addActionListener(e -> mainFrame.navigateTo("ManageInventory"));
+        manageEmployeesButton.addActionListener(e -> mainFrame.navigateTo("ManageEmployees", employee));
+        manageInventoryButton.addActionListener(e -> mainFrame.navigateTo("ManageInventory", employee));
         downloadReportButton.addActionListener(e -> JOptionPane.showMessageDialog(mainFrame, "Report Successfully Downloaded"));
         
         add(label, gbc);
         add(manageEmployeesButton, gbc);
         add(manageInventoryButton, gbc);
         add(downloadReportButton, gbc);
+    }
+    
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

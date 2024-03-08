@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import sandwichims.DarkTheme;
+import sandwichims.objects.Employee;
 
 /**
  *
@@ -31,8 +32,9 @@ with enough space between the buttons to take up a reasonable part of the screen
 public class ManageEmployeesPanel extends JPanel {
     
     private MainFrame mainFrame;
+    private Employee employee;
     
-    public ManageEmployeesPanel(MainFrame mainFrame) {
+    public ManageEmployeesPanel(MainFrame mainFrame, Employee employee) {
         
         //Applying dark mode before adding GUI components
         DarkTheme.applyTheme();
@@ -52,19 +54,19 @@ public class ManageEmployeesPanel extends JPanel {
         modifyExisting.addActionListener(e -> {
             
             System.out.println("Modify Employee Button Clicked");
-            mainFrame.navigateTo("modifyEmployee");
+            mainFrame.navigateTo("ModifyEmployee", employee);
                 });
         
         addNewEmployee.addActionListener(e -> {
             
             System.out.println("Add Employee Button Clicked");
-            mainFrame.navigateTo("addEmployee");
+            mainFrame.navigateTo("AddEmployee", employee);
                 });
         
         deleteEmployee.addActionListener(e -> {
             
             System.out.println("Delete Employee Button Clicked");
-            mainFrame.navigateTo("deleteEmployee");
+            mainFrame.navigateTo("DeleteEmployee", employee);
                 });
         
         
@@ -73,5 +75,9 @@ public class ManageEmployeesPanel extends JPanel {
         add(deleteEmployee);
         add(label);
         
+    }
+    
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }
