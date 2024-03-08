@@ -8,6 +8,7 @@ package sandwichims;
  *
  * @author bnorm
  */
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
@@ -25,8 +26,6 @@ public class SimpleHash {
     }
     
     public static void main(String[] args) {
-        String password = "MasterPassword";
-        String hashedPassword = hashPassword(password);
-        System.out.println("Hashed password: " + hashedPassword);
+        
     }
 }
