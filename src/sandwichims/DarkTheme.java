@@ -23,6 +23,5 @@ public class DarkTheme {
         UIManager.put("PasswordField.background", Color.LIGHT_GRAY);
         UIManager.put("PasswordField.foreground", Color.BLACK);
         UIManager.put("PasswordField.caretForeground", Color.WHITE);
-        // Add other component styles here
     }
 }
