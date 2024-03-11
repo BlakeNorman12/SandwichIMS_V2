@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
     Employee currentEmployee;
 
     public MainFrame() {
-        setTitle("***Store Name*** Management System");
+        setTitle("Sandwich Restaurant Management System");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(cardPanel);
@@ -52,24 +52,18 @@ public class MainFrame extends JFrame {
     private JPanel createPanel(String panelName, Employee employee) {
     switch (panelName) {
         case "Login":
-            // Login panel likely doesn't need employee information directly
             return new LoginPanel(this);
         case "MainMenu":
             return new MainMenuPanel(this, employee);
         case "ManageEmployees":
-            // Assuming ManageEmployeesPanel is designed to utilize employee information
             return new ManageEmployeesPanel(this, employee);
         case "ManageInventory":
-            // Assuming ManageInventoryPanel might need employee information for permissions, etc.
             return new ManageInventoryPanel(this, employee);
         case "ModifyEmployee":
-            // If ModifyEmployeePanel requires employee information to determine permissions
             return new ModifyEmployeePanel(this, employee);
         case "AddEmployee":
-            // AddEmployeePanel might not need employee information unless for audit or permissions
             return new AddEmployeePanel(this, employee);
         case "DeleteEmployee":
-            // Similarly, DeleteEmployeePanel might use employee for permissions
             return new DeleteEmployeePanel(this, employee);
         default:
             throw new IllegalArgumentException("Unknown panel: " + panelName);
@@ -113,6 +107,21 @@ public class MainFrame extends JFrame {
                 }
                 break;
     }}}
+    
+    public void showMainMenu(Employee employee) {
+        cardPanel.removeAll();
+
+        MainMenuPanel mainMenuPanel = new MainMenuPanel(this, employee);
+        LoginPanel loginPanel = new LoginPanel(this);
+        
+        cardPanel.add(mainMenuPanel, "MainMenu");
+        cardPanel.add(loginPanel, "Login");
+        
+        cardLayout.show(cardPanel, "MainMenu");
+
+        cardPanel.revalidate();
+        cardPanel.repaint();
+    }
     
     public static void main(String[] args){
         SwingUtilities.invokeLater(() -> {

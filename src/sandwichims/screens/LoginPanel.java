@@ -50,6 +50,10 @@ public class LoginPanel extends JPanel {
         JLabel label = new JLabel("Please login to access the system.");
         label.setHorizontalAlignment(JLabel.CENTER);
         
+        Font labelFont = label.getFont();
+        float newSize = 20f;
+        label.setFont(labelFont.deriveFont(newSize));
+        
         // Username components
         JLabel usernameLabel = new JLabel("Username:");
         JTextField usernameTextField = new JTextField(20);
@@ -66,7 +70,7 @@ public class LoginPanel extends JPanel {
                 Employee employee = authenticateUser(usernameTextField.getText(), new String(passwordField.getPassword()));
                 if (employee != null){
                     System.out.println("Authentication successful. Hello " + employee.getFirstName());
-                    mainFrame.navigateTo("MainMenu", employee);
+                    mainFrame.showMainMenu(employee);
                 } else {
                     JOptionPane.showMessageDialog(LoginPanel.this, "Invalid username or password.", "Login Error", JOptionPane.ERROR_MESSAGE);
                 }

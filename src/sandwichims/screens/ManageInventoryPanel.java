@@ -65,6 +65,7 @@ public class ManageInventoryPanel extends JPanel {
         //Applying dark mode before adding GUI components
         DarkTheme.applyTheme();
         setBackground(Color.DARK_GRAY);
+        GridBagConstraints gbc = new GridBagConstraints();
         
         this.mainFrame = mainFrame;
         setLayout(new FlowLayout());
@@ -73,7 +74,20 @@ public class ManageInventoryPanel extends JPanel {
         
         JLabel label = new JLabel("Manage Inventory");        
         add(label);
-
+        
+        JButton backButton = new JButton("Previous Screen");
+        backButton.addActionListener(e -> {
+            mainFrame.navigateTo("MainMenu", employee);
+            this.employee = employee;
+        });
+        
+        gbc.anchor = GridBagConstraints.LAST_LINE_END;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(10, 0, 10, 10);
+        
+        add(backButton, gbc);
     }
     
     public void setEmployee(Employee employee) {

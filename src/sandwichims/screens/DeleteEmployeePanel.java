@@ -55,6 +55,7 @@ public class DeleteEmployeePanel extends JPanel {
         
         this.mainFrame = mainFrame;
         setLayout(new FlowLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
         
         //Frame Components
         
@@ -69,6 +70,21 @@ public class DeleteEmployeePanel extends JPanel {
         
         add(label);
         add(deleteEmployeeButton);
+        
+        JButton backButton = new JButton("Previous Screen");
+        backButton.addActionListener(e -> {
+            mainFrame.navigateTo("ManageEmployees", employee);
+            this.employee = employee;
+        });
+        
+        gbc.anchor = GridBagConstraints.LAST_LINE_END;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(10, 0, 10, 10);
+        
+        add(backButton, gbc);
+        
     }
     
     public void setEmployee(Employee employee) {
