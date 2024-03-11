@@ -52,7 +52,29 @@ public class EmployeeMethods {
         }
     }    
     
-    public static void deleteEmployee(int employeeId, String firstName, String lastName){
+    public static void deleteEmployee(int EmployeeID, String FirstName, String LastName){
+        String dbUrl = "jdbc:mysql://localhost:3306/SandwichIMS";
+        String dbUser = "root";
+        String dbPassword = "root";
         
+        String sql = "DELETE FROM Employee WHERE employeeID = ? AND firstName = ? AND lastName = ?";
+        
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+                PreparedStatement pstmt = conn.prepareStatement(sql)){
+            
+            pstmt.setInt(1, EmployeeID);
+            pstmt.setString(2, FirstName);
+            pstmt.setString(3, LastName);
+            
+            int affectedRows = pstmt.executeUpdate();
+            
+            if (affectedRows > 0){
+                System.out.println("Employee deleted successfully");
+            } else {
+                System.out.println("No employee found with the specified criteria");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

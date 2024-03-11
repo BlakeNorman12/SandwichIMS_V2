@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import sandwichims.DarkTheme;
 import sandwichims.objects.Employee;
+import methods.EmployeeMethods;
 
 /**
  *
@@ -90,6 +91,26 @@ public class DeleteEmployeePanel extends JPanel {
         deleteEmployeeButton.setFont(buttonFont);
         add(deleteEmployeeButton, gbc);
         
+        deleteEmployeeButton.addActionListener(e -> {
+            int confirmed = JOptionPane.showConfirmDialog(this, "Are you sure? This cannot be undone.", "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (confirmed == JOptionPane.YES_OPTION){
+                try {
+                    int employeeId = Integer.parseInt(employeeIdField.getText().trim());
+                    String firstName = firstNameField.getText().trim();
+                    String lastName = lastNameField.getText().trim();
+                    EmployeeMethods.deleteEmployee(employeeId, firstName, lastName);
+                    JOptionPane.showMessageDialog(this, "Employee deleted successfully");
+                    
+                    employeeIdField.setText("");
+                    firstNameField.setText("");
+                    lastNameField.setText("");                  
+                } catch (NumberFormatException ex){
+                    JOptionPane.showMessageDialog(this, "Invalid Employee ID.", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex){
+                    JOptionPane.showMessageDialog(this, "Error deleting employee: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);                    
+                }
+            }
+        });
         
         //Back Button
         JButton backButton = new JButton("Previous Screen");
