@@ -22,9 +22,9 @@ import sandwichims.SimpleHash;
  */
 
 //TODO:
-//Add login functionality. Verify with the database that the user is a valid user
 //Beautify the GUI
 //Make sure the user is notified when login is failed or successful. Use a JPane to display a message
+//Cursor is white and hard to see with the input boxes, see if there is a fix.
 
 public class LoginPanel extends JPanel {
     

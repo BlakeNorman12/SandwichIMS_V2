@@ -25,22 +25,7 @@ import methods.EmployeeMethods;
 /**
 * TODO:
 * 
-* BACK BUTTON should navigate back to the "Manage Employees" Panel
-* 
-* We need three input boxes:
-*   1. Employee First Name
-*   2. Employee Last Name
-*   3. EmployeeID
-* 
-* We need a "Delete Employee" Button
-*   When this button is clicked, we should have a popup that says
-*   "Are you sure? This action cannot be undone." The user should have the option to cancel.
-* 
-* If the user presses "Yes", delete all information regarding the deleted employee
-* from the "Employees" table in the database. Also, notify the user with a popup
-* that says "User successfully deleted". 
-* 
-* Beautify the GUI, stack the input  boxes, etc.
+* Beautify the GUI.
 *
 */
 public class DeleteEmployeePanel extends JPanel {

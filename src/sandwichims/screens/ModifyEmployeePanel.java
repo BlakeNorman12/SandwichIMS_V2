@@ -25,17 +25,7 @@ import sandwichims.objects.Employee;
 /*
 TODO:
 
-BACK BUTTON should navigate back to the Manage Employees Screen
-
-Add three buttons:
-    1. Change Info
-    2. Change Login
-    3. Change Permissions
-
-I didn't think it'd be necessary to add whole new screens for these simple operations.
-I'm thinking instead we could just have a pop-up with some input fields, as well as a "Cancel" 
-and "Submit" button. When "Submit" is clicked, all relevant information must be updated accordingly
-in the "Employees" table of the database.
+Implement functionalities for Employee Modifications
 
 
 */

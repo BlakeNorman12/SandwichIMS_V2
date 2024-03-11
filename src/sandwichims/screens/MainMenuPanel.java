@@ -19,11 +19,8 @@ import sandwichims.DarkTheme;
 
 TODO:
 
-This screen is almost done. I'd really just like the buttons to be stacked on top
-of each other, as well as another button for "Close Application" and "Change User"
+Possibly make more visually appealing
 
-Close application should close the application. "Change User" should navigate back to the Login Screen,
-where the user can login to their account.
 */
 
 public class MainMenuPanel extends JPanel {
