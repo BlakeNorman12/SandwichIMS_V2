@@ -79,8 +79,9 @@ public class MainMenuPanel extends JPanel {
         
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
-            mainFrame.navigateTo("Login", null);
+            mainFrame.logout();
             this.employee = null;
+            mainFrame.navigateTo("Login", null);
         });
         
         gbc.anchor = GridBagConstraints.LAST_LINE_END;

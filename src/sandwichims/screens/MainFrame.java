@@ -50,62 +50,62 @@ public class MainFrame extends JFrame {
     }
     
     private JPanel createPanel(String panelName, Employee employee) {
-    switch (panelName) {
-        case "Login":
-            return new LoginPanel(this);
-        case "MainMenu":
-            return new MainMenuPanel(this, employee);
-        case "ManageEmployees":
-            return new ManageEmployeesPanel(this, employee);
-        case "ManageInventory":
-            return new ManageInventoryPanel(this, employee);
-        case "ModifyEmployee":
-            return new ModifyEmployeePanel(this, employee);
-        case "AddEmployee":
-            return new AddEmployeePanel(this, employee);
-        case "DeleteEmployee":
-            return new DeleteEmployeePanel(this, employee);
-        default:
-            throw new IllegalArgumentException("Unknown panel: " + panelName);
-    }
+        switch (panelName) {
+            case "Login":
+                return new LoginPanel(this);
+            case "MainMenu":
+                return new MainMenuPanel(this, employee);
+            case "ManageEmployees":
+                return new ManageEmployeesPanel(this, employee);
+            case "ManageInventory":
+                return new ManageInventoryPanel(this, employee);
+            case "ModifyEmployee":
+                return new ModifyEmployeePanel(this, employee);
+            case "AddEmployee":
+                return new AddEmployeePanel(this, employee);
+            case "DeleteEmployee":
+                return new DeleteEmployeePanel(this, employee);
+            default:
+                throw new IllegalArgumentException("Unknown panel: " + panelName);
+        }
 }
 
     private void updatePanel(String panelName, Employee employee) {
         
         JPanel panel = panels.get(panelName);
     
-    if (panel != null) {
-        switch (panelName) {
-            case "MainMenu":
-                if (panel instanceof MainMenuPanel) {
-                    ((MainMenuPanel) panel).setEmployee(employee);
-                }
-                break;
-            case "ManageEmployees":
-                if (panel instanceof ManageEmployeesPanel) {
-                    ((ManageEmployeesPanel) panel).setEmployee(employee);
-                }
-                break;
-            case "ManageInventory":
-                if (panel instanceof ManageInventoryPanel) {
-                    ((ManageInventoryPanel) panel).setEmployee(employee);
-                }
-                break;
-            case "ModifyEmployee":
-                if (panel instanceof ModifyEmployeePanel) {
-                    ((ModifyEmployeePanel) panel).setEmployee(employee);
-                }
-                break;
-            case "AddEmployee":
-                if (panel instanceof AddEmployeePanel) {
-                    ((AddEmployeePanel) panel).setEmployee(employee);
-                }
-                break;
-            case "DeleteEmployee":
-                if (panel instanceof DeleteEmployeePanel) {
-                    ((DeleteEmployeePanel) panel).setEmployee(employee);
-                }
-                break;
+        if (panel != null) {
+            switch (panelName) {
+                case "MainMenu":
+                    if (panel instanceof MainMenuPanel) {
+                        ((MainMenuPanel) panel).setEmployee(employee);
+                    }
+                    break;
+                case "ManageEmployees":
+                    if (panel instanceof ManageEmployeesPanel) {
+                        ((ManageEmployeesPanel) panel).setEmployee(employee);
+                    }
+                    break;
+                case "ManageInventory":
+                    if (panel instanceof ManageInventoryPanel) {
+                        ((ManageInventoryPanel) panel).setEmployee(employee);
+                    }
+                    break;
+                case "ModifyEmployee":
+                    if (panel instanceof ModifyEmployeePanel) {
+                        ((ModifyEmployeePanel) panel).setEmployee(employee);
+                    }
+                    break;
+                case "AddEmployee":
+                    if (panel instanceof AddEmployeePanel) {
+                        ((AddEmployeePanel) panel).setEmployee(employee);
+                    }
+                    break;
+                case "DeleteEmployee":
+                    if (panel instanceof DeleteEmployeePanel) {
+                        ((DeleteEmployeePanel) panel).setEmployee(employee);
+                    }
+                    break;
     }}}
     
     public void showMainMenu(Employee employee) {
@@ -119,6 +119,20 @@ public class MainFrame extends JFrame {
         
         cardLayout.show(cardPanel, "MainMenu");
 
+        cardPanel.revalidate();
+        cardPanel.repaint();
+    }
+    
+    public void logout() {
+        
+        panels.clear();
+        currentEmployee = null;
+        
+        cardPanel.removeAll();
+        LoginPanel loginPanel = new LoginPanel(this);
+        cardPanel.add(loginPanel, "Login");
+        cardLayout.show(cardPanel, "Login");
+        
         cardPanel.revalidate();
         cardPanel.repaint();
     }
