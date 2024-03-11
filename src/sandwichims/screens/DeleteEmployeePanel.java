@@ -54,23 +54,44 @@ public class DeleteEmployeePanel extends JPanel {
         setBackground(Color.DARK_GRAY);
         
         this.mainFrame = mainFrame;
-        setLayout(new FlowLayout());
+        setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(3, 0, 3, 0); 
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
         
         //Frame Components
         
-        JLabel label = new JLabel("Delete Employee Panel");
+        //Label
+        JLabel label = new JLabel("Delete Employee");
+        label.setHorizontalAlignment(JLabel.CENTER);
+        Font labelFont = label.getFont();
+        float newSize = 20f;
+        label.setFont(labelFont.deriveFont(newSize));
+        add(label, gbc);
+        
+        //Text Fields
+        JTextField employeeIdField = new JTextField(20);
+        addLabeledField("First Name:", employeeIdField, gbc);
+        
+        JTextField firstNameField = new JTextField(20);
+        addLabeledField("First Name:", firstNameField, gbc);
+        
+        JTextField lastNameField = new JTextField(20);
+        addLabeledField("Last Name:", lastNameField, gbc);
+        
+        //Delete Employee Button
         JButton deleteEmployeeButton = new JButton("Delete Employee");
+        Font buttonFont = new Font(deleteEmployeeButton.getFont().getName(), Font.BOLD, 24);
+        deleteEmployeeButton.setFont(buttonFont);
+        add(deleteEmployeeButton, gbc);
         
-        deleteEmployeeButton.addActionListener(e -> {
-            
-            System.out.println("Delete Employee Button Clicked");
-            
-                });
         
-        add(label);
-        add(deleteEmployeeButton);
-        
+        //Back Button
         JButton backButton = new JButton("Previous Screen");
         backButton.addActionListener(e -> {
             mainFrame.navigateTo("ManageEmployees", employee);
@@ -89,6 +110,15 @@ public class DeleteEmployeePanel extends JPanel {
     
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+    
+    private void addLabeledField(String labelText, JTextField textField, GridBagConstraints gbc){
+        JLabel label = new JLabel(labelText);
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.setBackground(Color.DARK_GRAY);
+        panel.add(label);
+        panel.add(textField);
+        add(panel, gbc);
     }
     
 }

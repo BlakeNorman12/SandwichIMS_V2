@@ -47,27 +47,58 @@ public class ModifyEmployeePanel extends JPanel {
     
     public ModifyEmployeePanel(MainFrame mainFrame, Employee employee) {
         
-        //Applying dark mode before adding GUI components
+        //DARK MODE
         DarkTheme.applyTheme();
         setBackground(Color.DARK_GRAY);
         
         this.mainFrame = mainFrame;
-        setLayout(new FlowLayout());
+        setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
-        //Frame Components
+        //FORMATTING FOR PANEL COMPONENTS
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(5, 0, 5, 0); 
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
         
-        JLabel label = new JLabel("Modify Employee Panel");
-        JButton modifyEmployeeButton = new JButton("Modify Employee");
         
-        modifyEmployeeButton.addActionListener(e -> {
+        //MAIN LABEL
+        JLabel label = new JLabel("Modify Employee");
+        
+        Font labelFont = label.getFont();
+        float newSize = 20f;
+        label.setFont(labelFont.deriveFont(newSize));
+        
+        add(label, gbc);
+        
+        
+        //ADDING BUTTONS
+        JButton changeInfoButton = new JButton("Change Info");
+        changeInfoButton.addActionListener(e -> {
             
-            System.out.println("Modify Employee Button Clicked");
-            
-                });
+        });
         
-        add(label);
-        add(modifyEmployeeButton);
+        JButton changeLoginButton = new JButton("Change Login");
+        changeInfoButton.addActionListener(e -> {
+            
+        });
+        
+        JButton changePermissionsButton = new JButton("Change Permissions");
+        changeInfoButton.addActionListener(e -> {
+            
+        });
+        
+        //CHANGING BUTTON FONTS
+        Font buttonFont = new Font(changeInfoButton.getFont().getName(), Font.BOLD, 24);
+        changeInfoButton.setFont(buttonFont);
+        changeLoginButton.setFont(buttonFont);
+        changePermissionsButton.setFont(buttonFont);
+        
+        add(changeInfoButton, gbc);
+        add(changeLoginButton, gbc);
+        add(changePermissionsButton, gbc);
         
         JButton backButton = new JButton("Previous Screen");
         backButton.addActionListener(e -> {
@@ -75,6 +106,7 @@ public class ModifyEmployeePanel extends JPanel {
             this.employee = employee;
         });
         
+        //FORMATTING SPECIFIC TO THE BACK BUTTON
         gbc.anchor = GridBagConstraints.LAST_LINE_END;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
