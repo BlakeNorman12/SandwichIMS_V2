@@ -97,7 +97,7 @@ public class LoginPanel extends JPanel {
     private Employee authenticateUser(String username, String password){
             String url = "jdbc:mysql://localhost:3306/SandwichIMS";
             String dbUsername = "root";
-            String dbPassword = "Abster001";
+            String dbPassword = "root";
             
             String hashedPassword = SimpleHash.hashPassword(password);
             

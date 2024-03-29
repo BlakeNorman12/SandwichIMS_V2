@@ -55,7 +55,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
 
         // Retrieve data from the database and populate the data array
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sandwichims", "root", "Abster001");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sandwichims", "root", "root");
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = statement.executeQuery("SELECT * FROM product");
 
