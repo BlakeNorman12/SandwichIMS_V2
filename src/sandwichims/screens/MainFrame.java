@@ -58,7 +58,7 @@ public class MainFrame extends JFrame {
             case "ManageEmployees":
                 return new ManageEmployeesPanel(this, employee);
             case "ManageInventory":
-                return new ManageInventoryPanel(this, employee);
+                return new ManageInventoryPanelNew(this, employee);
             case "ModifyEmployee":
                 return new ModifyEmployeePanel(this, employee);
             case "AddEmployee":

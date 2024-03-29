@@ -90,9 +90,8 @@ public class ManageEmployeesPanel extends JPanel {
         
         add(label, gbc);
         add(modifyExisting, gbc);
-        add(addNewEmployee, gbc);
+        add(addNewEmployee, gbc);   
         add(deleteEmployee, gbc);
-        
         
         JButton backButton = new JButton("Previous Screen");
         backButton.addActionListener(e -> {

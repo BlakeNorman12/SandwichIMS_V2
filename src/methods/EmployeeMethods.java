@@ -25,13 +25,12 @@ public class EmployeeMethods {
     }
     
     public static void addEmployee(String firstName, String lastName, String username, String password, boolean isManager){
-        String dbUrl = "jdbc:mysql://localhost:3306/SandwichIMS";
-        String dbUser = "root";
-        String dbPassword = "root";
+        
+        SQLConnection connect = new SQLConnection();
         
         String sql = "INSERT INTO Employee (firstName, lastName, username, password, isManager) VALUES (?, ?, ?, ?, ?)";
         
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, firstName);
@@ -53,13 +52,12 @@ public class EmployeeMethods {
     }    
     
     public static void deleteEmployee(int EmployeeID, String FirstName, String LastName){
-        String dbUrl = "jdbc:mysql://localhost:3306/SandwichIMS";
-        String dbUser = "root";
-        String dbPassword = "root";
+        
+        SQLConnection connect = new SQLConnection();
         
         String sql = "DELETE FROM Employee WHERE employeeID = ? AND firstName = ? AND lastName = ?";
         
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
                 PreparedStatement pstmt = conn.prepareStatement(sql)){
             
             pstmt.setInt(1, EmployeeID);

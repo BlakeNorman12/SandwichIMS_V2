@@ -62,7 +62,7 @@ public class DeleteEmployeePanel extends JPanel {
         
         //Text Fields
         JTextField employeeIdField = new JTextField(20);
-        addLabeledField("First Name:", employeeIdField, gbc);
+        addLabeledField("Employee ID:", employeeIdField, gbc);
         
         JTextField firstNameField = new JTextField(20);
         addLabeledField("First Name:", firstNameField, gbc);
