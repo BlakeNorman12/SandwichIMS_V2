@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle("Sandwich Restaurant Management System");
-        setSize(800, 600);
+        setSize(900, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(cardPanel);
         navigateTo("Login", null); // Initially show the login panel

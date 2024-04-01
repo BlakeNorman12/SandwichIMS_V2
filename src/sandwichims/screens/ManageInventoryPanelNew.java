@@ -21,6 +21,11 @@ import javax.swing.JViewport;
 import javax.swing.table.DefaultTableModel;
 import sandwichims.DarkTheme;
 import sandwichims.objects.Employee;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.plot.PlotOrientation;
 
 /**
  *
@@ -40,12 +45,56 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         this.mainFrame = mainFrame;
         this.employee = employee;
         
-        populateTable();
-        initManagementInput();
+        setLayout(new BorderLayout());
+        
+        JPanel topHalf = new JPanel(new BorderLayout());
+        JScrollPane scrollPane = populateTable();
+        topHalf.add(scrollPane, BorderLayout.CENTER);
+        
+        JPanel managementInputPanel = initManagementInput();
+        topHalf.add(managementInputPanel, BorderLayout.WEST);
+        
+        add(topHalf, BorderLayout.NORTH);
+        
+        JPanel bottomHalf = new JPanel(new BorderLayout());
+        addChartPanel(bottomHalf);
+        add(bottomHalf, BorderLayout.CENTER);
         addPreviousScreenButton();
+       
     }
     
-    private void populateTable() {
+    private void addChartPanel(JPanel bottomHalf) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        dataset.addValue(80, "Quantity", "Product A");
+        dataset.addValue(50, "Quantity", "Product B");
+        dataset.addValue(30, "Quantity", "Product C");
+        dataset.addValue(60, "Quantity", "Product D");
+        dataset.addValue(75, "Quantity", "Product E");
+        dataset.addValue(80, "Quantity", "Product F");
+        dataset.addValue(50, "Quantity", "Product G");
+        dataset.addValue(30, "Quantity", "Product H");
+        dataset.addValue(60, "Quantity", "Product I");
+        dataset.addValue(75, "Quantity", "Product J");
+        
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Inventory Count",
+                "Product",
+                "Count",
+                dataset,
+                PlotOrientation.VERTICAL,
+                false,
+                true,
+                false
+        );
+        
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(560, 500));
+        
+        bottomHalf.add(chartPanel, BorderLayout.CENTER);
+    }
+    
+    private JScrollPane populateTable() {
 
         // Define column names
         String[] columns = {"Product ID", "Product Name", "Quantity"};
@@ -65,7 +114,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
             resultSet.beforeFirst();
 
             // Initialize data array with the correct size
-            data = new Object[rowCount][3]; // Assuming 3 columns
+            data = new Object[rowCount][3];
 
             // Populate data array with ResultSet values
             int row = 0;
@@ -104,6 +153,8 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
 
         // Add the scroll pane to the panel
         add(scrollPane, BorderLayout.CENTER);
+        
+        return scrollPane;
     }
     
     private void addPreviousScreenButton() {
@@ -126,8 +177,8 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         this.employee = employee;
     }
     
-    private void initManagementInput() {
-        
+    private JPanel initManagementInput() {
+    
         // Create text fields
         JTextField productIdField = new JTextField(10);
         JTextField productNameField = new JTextField(10);
@@ -161,11 +212,11 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         // Create panel for input fields and buttons
         JPanel inputButtonPanel = new JPanel(new BorderLayout());
         inputButtonPanel.add(inputPanel, BorderLayout.NORTH);
-        inputButtonPanel.add(buttonPanel, BorderLayout.CENTER);
-
-        // Add the input fields and buttons panel to the panel in the WEST region
-        add(inputButtonPanel, BorderLayout.WEST);
-    }
+        inputButtonPanel.add(buttonPanel, BorderLayout.SOUTH);
+        
+        return inputButtonPanel;
+        // Add the input fields and buttons panel to the passed topPanel in the WEST region
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
