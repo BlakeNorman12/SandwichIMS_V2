@@ -15,6 +15,8 @@ import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
 import sandwichims.DarkTheme;
 import sandwichims.objects.Employee;
+import sandwichims.SimpleHash;
+import methods.*;
 
 /**
  *
@@ -204,6 +206,55 @@ public class ModifyEmployeePanel extends JPanel {
 
         // Add the input fields and buttons panel to the panel in the WEST region
         add(inputButtonPanel, BorderLayout.WEST);
+        
+        
+        updateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                int employeeID = Integer.parseInt(employeeIdField.getText());
+                String firstName = firstNameField.getText();
+                String lastName = lastNameField.getText();
+                String username = userNameField.getText();
+                String currPassword = SimpleHash.hashPassword(currentPasswordField.getText().trim());
+                String newPassword = SimpleHash.hashPassword(newPasswordField.getText().trim());
+                
+                
+                String permissions;
+                if (sandwichArtistRadioButton.isSelected()) {
+                    permissions = sandwichArtistRadioButton.getText();
+                } else if (managerRadioButton.isSelected()) {
+                    permissions = managerRadioButton.getText();
+                } else {
+                    permissions = "";
+                }
+                
+                if (employeeIdField.getText().trim().isEmpty() || firstName.trim().isEmpty() ||
+                    lastName.trim().isEmpty() || username.trim().isEmpty() || 
+                    currPassword.trim().isEmpty() || newPassword.trim().isEmpty() || 
+                    permissions.isEmpty()) {
+
+
+                    JOptionPane.showMessageDialog(null, "Please fill out all input fields");
+                    return;
+                }
+                
+                if (permissions == "Sandwich Artist"){
+                    EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, false);
+                } else if (permissions == "Manager"){
+                    EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, true);                   
+                }
+                
+                employeeIdField.setText("");
+                firstNameField.setText("");
+                lastNameField.setText("");
+                userNameField.setText("");
+                currentPasswordField.setText("");
+                newPasswordField.setText("");
+                buttonGroup.clearSelection();
+        
+
+            }
+        });
     }
     
     @Override

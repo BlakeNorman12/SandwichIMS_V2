@@ -5,6 +5,7 @@
 package methods;
 
 import java.sql.*;
+import sandwichims.SimpleHash;
 
 /**
  *
@@ -12,17 +13,42 @@ import java.sql.*;
  */
 public class EmployeeMethods {
     
-    public static void changeInfo(int employeeID, String firstName, String lastName){
+    public static void modifyEmployee(int employeeID, String firstName, String lastName, String username, String oldPassword, String password, boolean isManager){
         
+        
+        boolean passwordVerified = verifyOldPassword(employeeID, oldPassword);
+        
+        if (passwordVerified){
+            SQLConnection connect = new SQLConnection();
+
+            String sql = "UPDATE Employee SET firstName = ?, lastName = ?, username = ?, password = ?, isManager = ? WHERE employeeID = ?";
+
+            try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
+                PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+                pstmt.setString(1, firstName);
+                pstmt.setString(2, lastName);
+                pstmt.setString(3, username);
+                pstmt.setString(4, password);
+                pstmt.setBoolean(5, isManager);
+                pstmt.setInt(6, employeeID);
+
+                int affectedRows = pstmt.executeUpdate();
+
+                if (affectedRows > 0){
+                    System.out.println("Employee successfully updated");
+                } else {
+                    System.out.println("An error occurred while updating the employee.");
+                }
+
+            } catch (SQLException e){
+                System.out.println("SQL ERROR: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Employee not updated. Old password was incorrect.");
+        }
     }
     
-    public static void changeLogin(int employeeID, String newLogin, String newPassword){
-        
-    }
-    
-    public static void changePermissions(int employeeID, boolean isManager){
-        
-    }
     
     public static void addEmployee(String firstName, String lastName, String username, String password, boolean isManager){
         
@@ -74,5 +100,31 @@ public class EmployeeMethods {
         } catch (SQLException e){
             e.printStackTrace();
         }
+    }
+    
+    public static boolean verifyOldPassword(int employeeID, String oldPassword){
+        
+        SQLConnection connect = new SQLConnection();
+        
+        String sql = "SELECT employeeID FROM Employee WHERE employeeID = ? AND password = ?";
+        
+        try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
+                PreparedStatement pstmt = conn.prepareStatement(sql)){
+            
+            pstmt.setInt(1, employeeID);
+            pstmt.setString(2, oldPassword);
+            System.out.println(oldPassword);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()){
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e){
+            System.out.println("SQL Error: " + e.getMessage());
+        }
+        
+        return false;
     }
 }
