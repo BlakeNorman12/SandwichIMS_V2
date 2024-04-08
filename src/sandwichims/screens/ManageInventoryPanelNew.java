@@ -91,7 +91,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
     private JScrollPane populateTable() {
         
         // Define column names
-        String[] columns = {"Product ID", "Product Name", "Quantity", "Last Modified By"};
+        String[] columns = {"Product ID", "Product Name", "Quantity", "Last Updated", "Last Modified By"};
 
         // Define data for the table
         Object[][] data = null; // Initialize as null for now
@@ -108,7 +108,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
             resultSet.beforeFirst();
 
             // Initialize data array with the correct size
-            data = new Object[rowCount][4];
+            data = new Object[rowCount][5];
 
             // Populate data array with ResultSet values
             int row = 0;
@@ -116,7 +116,8 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
                 data[row][0] = resultSet.getInt("productid");
                 data[row][1] = resultSet.getString("productname");
                 data[row][2] = resultSet.getInt("quantity");
-                data[row][3] = resultSet.getString("updatedby");
+                data[row][3] = resultSet.getString("lastupdated");
+                data[row][4] = resultSet.getString("updatedby");
                 row++;
             }
 
