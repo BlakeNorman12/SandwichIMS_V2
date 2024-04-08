@@ -7,12 +7,14 @@ package sandwichims.screens;
 import java.awt.BorderLayout;
 import java.sql.*;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -39,6 +41,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
      */
     private MainFrame mainFrame;
     private Employee employee;
+    private JTable table;
     
     public ManageInventoryPanelNew(MainFrame mainFrame, Employee employee) {
         
@@ -80,15 +83,15 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         );
         
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(560, 500));
+        chartPanel.setPreferredSize(new Dimension(560, 500));
         
         bottomHalf.add(chartPanel, BorderLayout.CENTER);
     }
     
     private JScrollPane populateTable() {
-
+        
         // Define column names
-        String[] columns = {"Product ID", "Product Name", "Quantity", "Modified By"};
+        String[] columns = {"Product ID", "Product Name", "Quantity", "Last Modified By"};
 
         // Define data for the table
         Object[][] data = null; // Initialize as null for now
@@ -149,6 +152,11 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         return scrollPane;
     }
     
+    private void refreshTable(){
+        JScrollPane newTable = populateTable();
+        add(newTable, BorderLayout.CENTER);
+    }
+    
     private void addPreviousScreenButton() {
         JButton previousScreenButton = new JButton("Previous Screen");
         previousScreenButton.addActionListener(new ActionListener() {
@@ -194,7 +202,66 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         inputPanel.add(productNameField);
         inputPanel.add(quantityLabel);
         inputPanel.add(quantityField);
+        
+        //Event listeners for buttons
+        addButton.addActionListener(e -> {
+            
+            if (productNameField.getText().trim().isEmpty() || quantityField.getText().trim().isEmpty()) {
 
+
+                    JOptionPane.showMessageDialog(null, "Please fill out Product Name and Quantity fields.");
+                    return;
+                }
+            
+            String productName = productNameField.getText();
+            int quantity = Integer.parseInt(quantityField.getText());
+            
+            ProductMethods.addProduct(productName, quantity, employee.getFirstName() + " " + employee.getLastName());
+            
+            //remove all text once submitted
+            productIdField.setText("");
+            productNameField.setText("");
+            quantityField.setText("");
+            
+        });
+        
+        deleteButton.addActionListener(e -> {
+           
+            if (productIdField.getText().trim().isEmpty() || productNameField.getText().trim().isEmpty()){
+                JOptionPane.showMessageDialog(null, "Please fill out Product Name and ProductID fields.");
+                    return;
+            }
+            
+            String productName = productNameField.getText();
+            int productId = Integer.parseInt(productIdField.getText());
+            
+            ProductMethods.deleteProduct(productId, productName);
+            
+            //remove all text once submitted
+            productIdField.setText("");
+            productNameField.setText("");
+            quantityField.setText("");
+            
+        });
+        
+        updateButton.addActionListener(e -> {
+            
+            if (productIdField.getText().trim().isEmpty() || productNameField.getText().trim().isEmpty() || quantityField.getText().trim().isEmpty()){
+                JOptionPane.showMessageDialog(null, "Please fill out all fields.");
+                    return;
+            }
+            
+            String productName = productNameField.getText();
+            int productId = Integer.parseInt(productIdField.getText());
+            int quantity = Integer.parseInt(quantityField.getText());
+            
+            ProductMethods.updateProduct(productId, productName, quantity, employee.getFirstName() + " " + employee.getLastName());
+            
+            productIdField.setText("");
+            productNameField.setText("");
+            quantityField.setText("");
+        });
+        
         // Create panel for buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);

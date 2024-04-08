@@ -7,6 +7,7 @@ package methods;
 import java.sql.*;
 import org.jfree.data.category.DefaultCategoryDataset;
 import sandwichims.objects.Employee.*;
+import java.sql.Date;
 
 /**
  *
@@ -17,6 +18,7 @@ public class ProductMethods {
     public static void addProduct(String productName, int quantity, String employee){
         
         SQLConnection connect = new SQLConnection();
+        Date LastUpdated = getDate();
         
         String sql = "INSERT INTO Product (ProductName, LastUpdated, quantity, UpdatedBy) VALUES (?, ?, ?, ?)";
         
@@ -24,8 +26,9 @@ public class ProductMethods {
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, productName);
-            pstmt.setString(2, employee);
+            pstmt.setDate(2, LastUpdated);
             pstmt.setInt(3, quantity);
+            pstmt.setString(4, employee);
 
             
             int affectedRows = pstmt.executeUpdate();
@@ -43,7 +46,7 @@ public class ProductMethods {
     public static void deleteProduct(int itemID, String productName){
         SQLConnection connect = new SQLConnection();
         
-        String sql = "DELETE FROM Employee WHERE ProductID = ? AND ProductName = ?";
+        String sql = "DELETE FROM Product WHERE ProductID = ? AND ProductName = ?";
         
         try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
                 PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -66,17 +69,18 @@ public class ProductMethods {
     public static void updateProduct(int itemID, String productName, int quantity, String employee){
         
         SQLConnection connect = new SQLConnection();
+        Date LastUpdated = getDate();
 
-        String sql = "UPDATE Product SET itemID = ?, ProductName = ?, quantity = ?, UpdatedBy = ?";
+        String sql = "UPDATE Product SET LastUpdated = ?, quantity = ?, UpdatedBy = ? WHERE ProductID = ? AND ProductName = ?";
 
         try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
             PreparedStatement pstmt = conn.prepareStatement(sql)){
 
-            pstmt.setInt(1, itemID);
-            pstmt.setString(2, productName);
-            pstmt.setInt(3, quantity);
-            pstmt.setString(4, employee);
-            
+            pstmt.setDate(1, LastUpdated);
+            pstmt.setInt(2, quantity);
+            pstmt.setString(3, employee);
+            pstmt.setInt(4, itemID);
+            pstmt.setString(5, productName);
 
             int affectedRows = pstmt.executeUpdate();
 
@@ -113,5 +117,12 @@ public class ProductMethods {
         }
         
         return dataset;
+    }
+    
+    public static Date getDate(){
+        long millis = System.currentTimeMillis();
+        Date currentDate = new Date(millis);
+        
+        return currentDate;
     }
 }
