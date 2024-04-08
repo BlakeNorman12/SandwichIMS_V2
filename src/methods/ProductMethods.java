@@ -4,10 +4,8 @@
  */
 package methods;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import org.jfree.data.category.DefaultCategoryDataset;
 import sandwichims.objects.Employee.*;
 
 /**
@@ -93,7 +91,27 @@ public class ProductMethods {
         }
     };
     
-    public static void populateDataset(){
-    
-    };
+    public static DefaultCategoryDataset populateDataset(){
+        
+        SQLConnection connect = new SQLConnection();
+        
+        String query = "SELECT ProductName, Quantity FROM Product";
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                String productName = rs.getString("ProductName");
+                int quantity = rs.getInt("Quantity");
+                dataset.addValue(quantity, "Quantity", productName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        
+        return dataset;
+    }
 }

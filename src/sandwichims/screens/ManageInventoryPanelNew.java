@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.table.DefaultTableModel;
+import methods.ProductMethods;
 import sandwichims.DarkTheme;
 import sandwichims.objects.Employee;
 import org.jfree.chart.ChartFactory;
@@ -64,18 +65,8 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
     }
     
     private void addChartPanel(JPanel bottomHalf) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset dataset = ProductMethods.populateDataset();
         
-        dataset.addValue(80, "Quantity", "Product A");
-        dataset.addValue(50, "Quantity", "Product B");
-        dataset.addValue(30, "Quantity", "Product C");
-        dataset.addValue(60, "Quantity", "Product D");
-        dataset.addValue(75, "Quantity", "Product E");
-        dataset.addValue(80, "Quantity", "Product F");
-        dataset.addValue(50, "Quantity", "Product G");
-        dataset.addValue(30, "Quantity", "Product H");
-        dataset.addValue(60, "Quantity", "Product I");
-        dataset.addValue(75, "Quantity", "Product J");
         
         JFreeChart chart = ChartFactory.createBarChart(
                 "Inventory Count",
