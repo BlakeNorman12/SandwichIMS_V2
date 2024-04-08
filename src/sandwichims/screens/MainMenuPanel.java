@@ -71,7 +71,14 @@ public class MainMenuPanel extends JPanel {
         manageInventoryButton.setFont(buttonFont);
         downloadReportButton.setFont(buttonFont);
         
-        manageEmployeesButton.addActionListener(e -> mainFrame.navigateTo("ManageEmployees", employee));
+        manageEmployeesButton.addActionListener(e -> {
+            
+            if (employee.isManager()){
+                mainFrame.navigateTo("ManageEmployees", employee);
+            } else {
+                JOptionPane.showMessageDialog(null, "You must be a manager to modify employees.");
+            }
+        });
         manageInventoryButton.addActionListener(e -> mainFrame.navigateTo("ManageInventory", employee));
         downloadReportButton.addActionListener(e -> {
             generateReport();
