@@ -8,8 +8,14 @@ import sandwichims.objects.Employee;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import sandwichims.DarkTheme;
-
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import methods.SQLConnection;
 /**
  *
  * @author bnorm
@@ -67,7 +73,9 @@ public class MainMenuPanel extends JPanel {
         
         manageEmployeesButton.addActionListener(e -> mainFrame.navigateTo("ManageEmployees", employee));
         manageInventoryButton.addActionListener(e -> mainFrame.navigateTo("ManageInventory", employee));
-        downloadReportButton.addActionListener(e -> JOptionPane.showMessageDialog(mainFrame, "Report Successfully Downloaded"));
+        downloadReportButton.addActionListener(e -> {
+            generateReport();
+        });
         
         add(label, gbc);
         add(manageEmployeesButton, gbc);
@@ -92,5 +100,61 @@ public class MainMenuPanel extends JPanel {
     
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+    
+    public void generateReport(){
+        
+        SQLConnection connect = new SQLConnection();
+        
+        try {
+            File reportsDir = new File("reports");
+            
+            if (!reportsDir.exists()){
+                reportsDir.mkdir();
+            }
+            
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+            String formattedDateTime = now.format(formatter);
+            
+            String fileName = "reports/Report_" + formattedDateTime + ".txt";
+            
+            String productQuery = "SELECT * FROM Product";
+            String employeeQuery = "SELECT * FROM Employee";
+            
+            try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass())){
+                PreparedStatement pstmtProduct = conn.prepareStatement(productQuery);
+                ResultSet rsProduct = pstmtProduct.executeQuery();
+                PreparedStatement pstmtEmployee = conn.prepareStatement(employeeQuery);
+                ResultSet rsEmployee = pstmtEmployee.executeQuery();
+                PrintWriter writer = new PrintWriter(new FileWriter(fileName));
+                
+                writer.println("Products Report:");
+                while (rsProduct.next()){
+                    writer.println("Product ID: " + rsProduct.getInt("ProductID") +
+                            ", Product Name: " + rsProduct.getString("ProductName") + 
+                            ", Quantity: " + rsProduct.getInt("Quantity") + 
+                            ", Last Updated: " + rsProduct.getDate("LastUpdated") +
+                            ", Updated By: " + rsProduct.getString("UpdatedBy"));
+                }
+                
+                writer.println("\nEmployees Report:");
+                while (rsEmployee.next()){
+                    writer.println("Employee ID: " + rsEmployee.getInt("employeeID") +
+                            ", Name: " + rsEmployee.getString("firstName") + " " + rsEmployee.getString("lastName") + 
+                            ", Username: " + rsEmployee.getString("username") +
+                            ", Manager: " + rsEmployee.getBoolean("isManager"));
+                }
+                
+                writer.flush();
+                
+                JOptionPane.showMessageDialog(null, "Report Successfully Downloaded: " + fileName);
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Failed to Generate Report", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e){
+            System.err.println("An error occurred while generating the Report.");
+        }
     }
 }

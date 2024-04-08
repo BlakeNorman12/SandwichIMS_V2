@@ -1,0 +1,16 @@
+Products Report:
+Product ID: 1, Product Name: Bread, Quantity: 20, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 2, Product Name: Provolone, Quantity: 50, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 3, Product Name: Mayo, Quantity: 40, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 4, Product Name: Ham, Quantity: 35, Last Updated: 2024-04-08, Updated By: Jordan Levercom
+Product ID: 5, Product Name: Turkey, Quantity: 20, Last Updated: 2024-04-08, Updated By: Jordan Levercom
+Product ID: 6, Product Name: Avocado, Quantity: 10, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 7, Product Name: Peppers, Quantity: 28, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 8, Product Name: Cucumbers, Quantity: 20, Last Updated: 2024-04-08, Updated By: Blake Norman
+
+Employees Report:
+Employee ID: 1, Name: Jordan Levercom, Username: jlevercom, Manager: true
+Employee ID: 2, Name: Blake Norman, Username: bnorman, Manager: true
+Employee ID: 3, Name: Derrick Strover-Duncan, Username: dstrover, Manager: true
+Employee ID: 4, Name: Elias Gomez, Username: egomez, Manager: true
+Employee ID: 5, Name: 1 1, Username: 1, Manager: true
