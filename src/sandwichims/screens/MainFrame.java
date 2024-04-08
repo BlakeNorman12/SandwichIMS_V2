@@ -87,8 +87,8 @@ public class MainFrame extends JFrame {
                     }
                     break;
                 case "ManageInventory":
-                    if (panel instanceof ManageInventoryPanel) {
-                        ((ManageInventoryPanel) panel).setEmployee(employee);
+                    if (panel instanceof ManageInventoryPanelNew) {
+                        ((ManageInventoryPanelNew) panel).setEmployee(employee);
                     }
                     break;
                 case "ModifyEmployee":

@@ -27,6 +27,6 @@ public class SimpleHash {
     
     public static void main(String[] args) {
         
-        System.out.println(hashPassword("MasterPassword"));
+        System.out.println(hashPassword("Password"));
     }
 }
