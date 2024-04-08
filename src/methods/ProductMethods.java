@@ -65,8 +65,32 @@ public class ProductMethods {
         }
     };
     
-    public static void updateProduct(int itemID, String productName, int quantity){
-    
+    public static void updateProduct(int itemID, String productName, int quantity, String employee){
+        
+        SQLConnection connect = new SQLConnection();
+
+        String sql = "UPDATE Product SET itemID = ?, ProductName = ?, quantity = ?, UpdatedBy = ?";
+
+        try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1, itemID);
+            pstmt.setString(2, productName);
+            pstmt.setInt(3, quantity);
+            pstmt.setString(4, employee);
+            
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0){
+                System.out.println("Product successfully updated");
+            } else {
+                System.out.println("An error occurred while updating the product.");
+            }
+
+        } catch (SQLException e){
+            System.out.println("SQL ERROR: " + e.getMessage());
+        }
     };
     
     public static void populateDataset(){
