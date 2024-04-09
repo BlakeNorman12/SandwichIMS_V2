@@ -4,14 +4,24 @@ CREATE DATABASE SandwichIMS;
 
 USE SandwichIMS;
 
-
 CREATE TABLE Product (
 	ProductID INT AUTO_INCREMENT PRIMARY KEY,
     ProductName VARCHAR(50),
-    LastUpdated DATETIME,
-    Quantity INT
+    LastUpdated DATE,
+    Quantity INT,
+    UpdatedBy VARCHAR(50)
 );
 
+INSERT INTO Product (ProductID, ProductName, LastUpdated, Quantity, UpdatedBy) VALUES
+(1, "Bread", '2024-04-08', 25, "Jordan Levercom"),
+(2, "Provolone", '2024-04-08', 50, "Blake Norman"),
+(3, "Mayo", '2024-04-08', 40, "Blake Norman"),
+(4, "Ham", '2024-04-08', 35, "Jordan Levercom"),
+(5, "Turkey", '2024-04-08', 20, "Jordan Levercom"),
+(6, "Avocado", '2024-04-08', 10, "Blake Norman"),
+(7, "Peppers", '2024-04-08', 28, "Blake Norman"),
+(8, "Cucumbers", '2024-04-08', 20, "Blake Norman"),
+(9, "Cheddar", '2024-04-08', 80, "Blake Norman");
 
 CREATE TABLE Employee (
 	employeeID INT AUTO_INCREMENT PRIMARY KEY,
