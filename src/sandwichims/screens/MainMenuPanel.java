@@ -76,7 +76,7 @@ public class MainMenuPanel extends JPanel {
             if (employee.isManager()){
                 mainFrame.navigateTo("ManageEmployees", employee);
             } else {
-                JOptionPane.showMessageDialog(null, "You must be a manager to modify employees.");
+                DarkTheme.showCustomDialog(mainFrame, "You must be a manager to modify employee information.");
             }
         });
         manageInventoryButton.addActionListener(e -> mainFrame.navigateTo("ManageInventory", employee));
@@ -155,10 +155,10 @@ public class MainMenuPanel extends JPanel {
                 
                 writer.flush();
                 
-                JOptionPane.showMessageDialog(null, "Report Successfully Downloaded: " + fileName);
+                    DarkTheme.showCustomDialog(mainFrame, "Report successfully downloaded.");
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Failed to Generate Report", "Error", JOptionPane.ERROR_MESSAGE);
+                    DarkTheme.showCustomDialog(mainFrame, "Failed to generate report.");
             }
         } catch (Exception e){
             System.err.println("An error occurred while generating the Report.");
