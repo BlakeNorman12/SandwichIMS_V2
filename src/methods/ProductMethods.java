@@ -22,24 +22,28 @@ public class ProductMethods {
         
         String sql = "INSERT INTO Product (ProductName, LastUpdated, quantity, UpdatedBy) VALUES (?, ?, ?, ?)";
         
-        try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-            pstmt.setString(1, productName);
-            pstmt.setDate(2, LastUpdated);
-            pstmt.setInt(3, quantity);
-            pstmt.setString(4, employee);
+        if (quantity >= 0){
+            try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            
-            int affectedRows = pstmt.executeUpdate();
-            
-            if (affectedRows > 0) {
-                System.out.println("Product added successfully.");
-            } else {
-                System.out.println("An error occurred. No product was added.");
+                pstmt.setString(1, productName);
+                pstmt.setDate(2, LastUpdated);
+                pstmt.setInt(3, quantity);
+                pstmt.setString(4, employee);
+
+
+                int affectedRows = pstmt.executeUpdate();
+
+                if (affectedRows > 0) {
+                    System.out.println("Product added successfully.");
+                } else {
+                    System.out.println("An error occurred. No product was added.");
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
             }
-        } catch (SQLException e){
-            e.printStackTrace();
+        } else {
+            System.out.println("Cannot add negative product to the database. Operation cancelled.");
         }
     };
     
@@ -73,25 +77,29 @@ public class ProductMethods {
 
         String sql = "UPDATE Product SET LastUpdated = ?, quantity = ?, UpdatedBy = ? WHERE ProductID = ? AND ProductName = ?";
 
-        try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
+        if (quantity >= 0){
+            try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
+                PreparedStatement pstmt = conn.prepareStatement(sql)){
 
-            pstmt.setDate(1, LastUpdated);
-            pstmt.setInt(2, quantity);
-            pstmt.setString(3, employee);
-            pstmt.setInt(4, itemID);
-            pstmt.setString(5, productName);
+                pstmt.setDate(1, LastUpdated);
+                pstmt.setInt(2, quantity);
+                pstmt.setString(3, employee);
+                pstmt.setInt(4, itemID);
+                pstmt.setString(5, productName);
 
-            int affectedRows = pstmt.executeUpdate();
+                int affectedRows = pstmt.executeUpdate();
 
-            if (affectedRows > 0){
-                System.out.println("Product successfully updated");
-            } else {
-                System.out.println("An error occurred while updating the product.");
+                if (affectedRows > 0){
+                    System.out.println("Product successfully updated");
+                } else {
+                    System.out.println("An error occurred while updating the product.");
+                }
+
+            } catch (SQLException e){
+                System.out.println("SQL ERROR: " + e.getMessage());
             }
-
-        } catch (SQLException e){
-            System.out.println("SQL ERROR: " + e.getMessage());
+        } else {
+                System.out.println("Cannot add negative values to the database. Database operation canceled.");
         }
     };
     

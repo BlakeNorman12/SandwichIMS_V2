@@ -110,13 +110,13 @@ public class AddEmployeePanel extends JPanel {
             boolean isManager = yesButton.isSelected();
             
             if (firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() || password.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                DarkTheme.showCustomDialog(mainFrame, "Please fill in all fields.");
                 return;
             }
             
             try {
                 EmployeeMethods.addEmployee(firstName, lastName, username, password, isManager);
-                JOptionPane.showMessageDialog(this, "Employee added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                DarkTheme.showCustomDialog(mainFrame, "Employee added successfully.");
                 
                 firstNameField.setText("");
                 lastNameField.setText("");
@@ -125,7 +125,7 @@ public class AddEmployeePanel extends JPanel {
                 group.clearSelection();
                 noButton.setSelected(true);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error adding employee: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                DarkTheme.showCustomDialog(mainFrame, "Error adding employee.");
             }
             
         }));

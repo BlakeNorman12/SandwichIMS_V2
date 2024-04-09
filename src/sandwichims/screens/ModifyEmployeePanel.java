@@ -234,7 +234,7 @@ public class ModifyEmployeePanel extends JPanel {
                     permissions.isEmpty()) {
 
 
-                    JOptionPane.showMessageDialog(null, "Please fill out all input fields");
+                    DarkTheme.showCustomDialog(mainFrame, "Please fill out all input fields.");
                     return;
                 }
                 

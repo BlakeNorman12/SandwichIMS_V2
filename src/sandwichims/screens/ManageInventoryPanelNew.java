@@ -210,7 +210,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
             if (productNameField.getText().trim().isEmpty() || quantityField.getText().trim().isEmpty()) {
 
 
-                    JOptionPane.showMessageDialog(null, "Please fill out Product Name and Quantity fields.");
+                DarkTheme.showCustomDialog(mainFrame, "Please fill out Product Name and Quantity fields.");
                     return;
                 }
             
@@ -229,7 +229,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         deleteButton.addActionListener(e -> {
            
             if (productIdField.getText().trim().isEmpty() || productNameField.getText().trim().isEmpty()){
-                JOptionPane.showMessageDialog(null, "Please fill out Product Name and ProductID fields.");
+                DarkTheme.showCustomDialog(mainFrame, "Please fill out ProductID and Product Name fields..");
                     return;
             }
             
@@ -248,7 +248,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         updateButton.addActionListener(e -> {
             
             if (productIdField.getText().trim().isEmpty() || productNameField.getText().trim().isEmpty() || quantityField.getText().trim().isEmpty()){
-                JOptionPane.showMessageDialog(null, "Please fill out all fields.");
+                DarkTheme.showCustomDialog(mainFrame, "Please fill out all fields.");
                     return;
             }
             

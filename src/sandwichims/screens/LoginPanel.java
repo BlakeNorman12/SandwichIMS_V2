@@ -72,7 +72,8 @@ public class LoginPanel extends JPanel {
                     System.out.println("Authentication successful. Hello " + employee.getFirstName());
                     mainFrame.showMainMenu(employee);
                 } else {
-                    JOptionPane.showMessageDialog(LoginPanel.this, "Invalid username or password.", "Login Error", JOptionPane.ERROR_MESSAGE);
+                    //JOptionPane.showMessageDialog(LoginPanel.this, "Invalid username or password.", "Login Error", JOptionPane.ERROR_MESSAGE);
+                    DarkTheme.showCustomDialog(mainFrame, "Invalid username or password.");
                 }
            }
         });
