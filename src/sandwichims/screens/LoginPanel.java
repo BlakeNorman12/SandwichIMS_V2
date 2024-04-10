@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import methods.SQLConnection;
 import sandwichims.DarkTheme;
 import sandwichims.SimpleHash;
 
@@ -96,15 +97,14 @@ public class LoginPanel extends JPanel {
 }
     
     private Employee authenticateUser(String username, String password){
-            String url = "jdbc:mysql://localhost:3306/SandwichIMS";
-            String dbUsername = "root";
-            String dbPassword = "root";
+            
+            SQLConnection connect = new SQLConnection();
             
             String hashedPassword = SimpleHash.hashPassword(password);
             
             String query = "SELECT firstName, lastName, isManager FROM Employee WHERE username = ? AND password = ?";
             
-            try (Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+            try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
                     PreparedStatement stmt = conn.prepareStatement(query)) {
                     
                     stmt.setString(1, username);

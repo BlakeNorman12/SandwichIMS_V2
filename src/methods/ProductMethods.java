@@ -75,17 +75,17 @@ public class ProductMethods {
         SQLConnection connect = new SQLConnection();
         Date LastUpdated = getDate();
 
-        String sql = "UPDATE Product SET LastUpdated = ?, quantity = ?, UpdatedBy = ? WHERE ProductID = ? AND ProductName = ?";
+        String sql = "UPDATE Product SET ProductName = ?, LastUpdated = ?, quantity = ?, UpdatedBy = ? WHERE ProductID = ?";
 
         if (quantity >= 0){
             try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
                 PreparedStatement pstmt = conn.prepareStatement(sql)){
 
-                pstmt.setDate(1, LastUpdated);
-                pstmt.setInt(2, quantity);
-                pstmt.setString(3, employee);
-                pstmt.setInt(4, itemID);
-                pstmt.setString(5, productName);
+                pstmt.setString(1, productName);
+                pstmt.setDate(2, LastUpdated);
+                pstmt.setInt(3, quantity);
+                pstmt.setString(4, employee);
+                pstmt.setInt(5, itemID);
 
                 int affectedRows = pstmt.executeUpdate();
 

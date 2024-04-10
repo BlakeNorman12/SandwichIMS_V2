@@ -92,7 +92,8 @@ public class ModifyEmployeePanel extends JPanel {
 
         // Retrieve data from the database and populate the table
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sandwichims", "root", "root");
+            SQLConnection connect = new SQLConnection();
+            Connection connection = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM employee");
 
