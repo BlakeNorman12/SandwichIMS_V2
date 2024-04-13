@@ -39,58 +39,45 @@ Implement functionalities for Employee Modifications
 */
 
 public class ModifyEmployeePanel extends JPanel {
-    
+
     private MainFrame mainFrame;
     private Employee employee;
     private JTable table;
     private DefaultTableModel model;
-    
+
     public ModifyEmployeePanel(MainFrame mainFrame, Employee employee) {
-        
         DarkTheme.applyTheme();
         this.mainFrame = mainFrame;
         this.employee = employee;
-        
-        initTable();
-        initManagementInput();
+
+        setLayout(new BorderLayout());
+
+        JScrollPane scrollPane = createTable();
+        JPanel managementInputPanel = initManagementInput();
+
+        add(scrollPane, BorderLayout.CENTER);
+        add(managementInputPanel, BorderLayout.WEST);
         addPreviousScreenButton();
-        
-        populateTable();
     }
-    
-    private void initTable() {
-        
-        // Define column names
+
+    private JScrollPane createTable() {
         String[] columns = {"Employee ID", "First Name", "Last Name", "Username", "Permissions"};
-
-        // Create a table model with the data and columns
         model = new DefaultTableModel(columns, 0);
-
-        // Create the table using the table model
         table = new JTable(model);
-
-        // Set table theme
         table.getTableHeader().setBackground(Color.LIGHT_GRAY);
         table.getTableHeader().setForeground(Color.BLACK);
 
-        // Add the table to a scroll pane
         JScrollPane scrollPane = new JScrollPane(table);
         JViewport viewport = scrollPane.getViewport();
         viewport.setBackground(Color.DARK_GRAY);
-
-        // Add the scroll pane to the panel
-        add(scrollPane, BorderLayout.CENTER);
-        
-        
+        return scrollPane;
     }
-    
-    private void populateTable() {
 
+    private void populateTable() {
         if (model != null) {
-            model.setRowCount(0); // Clear existing table data
+            model.setRowCount(0);
         }
 
-        // Retrieve data from the database and populate the table
         try {
             SQLConnection connect = new SQLConnection();
             Connection connection = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
@@ -114,30 +101,8 @@ public class ModifyEmployeePanel extends JPanel {
             e.printStackTrace();
         }
     }
-    
-    private void addPreviousScreenButton() {
-        JButton previousScreenButton = new JButton("Previous Screen");
-        previousScreenButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                mainFrame.navigateTo("ManageEmployees", employee);
-            }
-        });
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // Right-aligned button panel
-        buttonPanel.add(previousScreenButton);
-        buttonPanel.setOpaque(false); // Make the panel transparent
-
-        add(buttonPanel, BorderLayout.SOUTH); // Add button panel to the bottom of the panel
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-    
-    private void initManagementInput() {
-        
-        // Create text fields
+    private JPanel initManagementInput() {
         JTextField employeeIdField = new JTextField(10);
         JTextField firstNameField = new JTextField(10);
         JTextField lastNameField = new JTextField(10);
@@ -145,8 +110,6 @@ public class ModifyEmployeePanel extends JPanel {
         JTextField currentPasswordField = new JTextField(10);
         JTextField newPasswordField = new JTextField(10);
 
-        
-        // Create labels for text fields
         JLabel employeeIdLabel = new JLabel("Employee ID:");
         JLabel firstNameLabel = new JLabel("First Name:");
         JLabel lastNameLabel = new JLabel("Last Name:");
@@ -154,72 +117,66 @@ public class ModifyEmployeePanel extends JPanel {
         JLabel currentPasswordLabel = new JLabel("Current Password:");
         JLabel newPasswordLabel = new JLabel("New Password:");
         JLabel isManagerLabel = new JLabel("Permissions:");
-        
-        // Create radio buttons
+
         JRadioButton sandwichArtistRadioButton = new JRadioButton("Sandwich Artist");
         JRadioButton managerRadioButton = new JRadioButton("Manager");
-        
+
+        sandwichArtistRadioButton.setSelected(true);
         managerRadioButton.setBackground(Color.DARK_GRAY);
         managerRadioButton.setOpaque(true);
-        
         sandwichArtistRadioButton.setBackground(Color.DARK_GRAY);
         sandwichArtistRadioButton.setOpaque(true);
-        
         managerRadioButton.setForeground(Color.LIGHT_GRAY);
         sandwichArtistRadioButton.setForeground(Color.LIGHT_GRAY);
 
-        // Group the radio buttons
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(sandwichArtistRadioButton);
         buttonGroup.add(managerRadioButton);
 
-        // Create buttons
         JButton updateButton = new JButton("Update");
 
-        // Create panel for text fields and labels
-        JPanel inputPanel = new JPanel(new GridLayout(0, 2));
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
         inputPanel.add(employeeIdLabel);
         inputPanel.add(employeeIdField);
+        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(firstNameLabel);
         inputPanel.add(firstNameField);
+        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(lastNameLabel);
         inputPanel.add(lastNameField);
+        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(userNameLabel);
         inputPanel.add(userNameField);
+        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(currentPasswordLabel);
         inputPanel.add(currentPasswordField);
+        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(newPasswordLabel);
         inputPanel.add(newPasswordField);
+        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(isManagerLabel);
         inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(sandwichArtistRadioButton);
         inputPanel.add(managerRadioButton);
-        
+        inputPanel.add(Box.createVerticalStrut(10));
 
-        // Create panel for buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(updateButton);
 
-        // Create panel for input fields and buttons
         JPanel inputButtonPanel = new JPanel(new BorderLayout());
         inputButtonPanel.add(inputPanel, BorderLayout.NORTH);
         inputButtonPanel.add(buttonPanel, BorderLayout.CENTER);
 
-        // Add the input fields and buttons panel to the panel in the WEST region
-        add(inputButtonPanel, BorderLayout.WEST);
-        
-        
         updateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
                 int employeeID = Integer.parseInt(employeeIdField.getText());
                 String firstName = firstNameField.getText();
                 String lastName = lastNameField.getText();
                 String username = userNameField.getText();
                 String currPassword = SimpleHash.hashPassword(currentPasswordField.getText().trim());
                 String newPassword = SimpleHash.hashPassword(newPasswordField.getText().trim());
-                
-                
+
                 String permissions;
                 if (sandwichArtistRadioButton.isSelected()) {
                     permissions = sandwichArtistRadioButton.getText();
@@ -228,25 +185,22 @@ public class ModifyEmployeePanel extends JPanel {
                 } else {
                     permissions = "";
                 }
-                
-                if (employeeIdField.getText().trim().isEmpty() || firstName.trim().isEmpty() ||
-                    lastName.trim().isEmpty() || username.trim().isEmpty() || 
-                    currPassword.trim().isEmpty() || newPassword.trim().isEmpty() || 
-                    permissions.isEmpty()) {
 
+                if (employeeIdField.getText().trim().isEmpty() || firstName.trim().isEmpty() ||
+                    lastName.trim().isEmpty() || username.trim().isEmpty() ||
+                    currPassword.trim().isEmpty() || newPassword.trim().isEmpty() ||
+                    permissions.isEmpty()) {
 
                     DarkTheme.showCustomDialog(mainFrame, "Please fill out all input fields.");
                     return;
                 }
-                
-                if (permissions.equals("Sandwich Artist")){
-                    
+
+                if (permissions.equals("Sandwich Artist")) {
                     EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, false);
-                } else if (permissions.equals("Manager")){
-                    
-                    EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, true);                   
+                } else if (permissions.equals("Manager")) {
+                    EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, true);
                 }
-                
+
                 employeeIdField.setText("");
                 firstNameField.setText("");
                 lastNameField.setText("");
@@ -254,12 +208,31 @@ public class ModifyEmployeePanel extends JPanel {
                 currentPasswordField.setText("");
                 newPasswordField.setText("");
                 buttonGroup.clearSelection();
-        
-
+                populateTable(); // Refresh table after update
             }
         });
+
+        return inputButtonPanel;
     }
-    
+
+    private void addPreviousScreenButton() {
+        JButton previousScreenButton = new JButton("Previous Screen");
+        previousScreenButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.navigateTo("ManageEmployees", employee);
+            }
+        });
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.add(previousScreenButton);
+        buttonPanel.setOpaque(false);
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     @Override
     public void setVisible(boolean aFlag) {
         super.setVisible(aFlag);

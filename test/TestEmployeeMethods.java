@@ -18,6 +18,7 @@ import methods.*;
 
 public class TestEmployeeMethods {
     
+    // p = oldPassword = password @ employeeID
     @Test
     public void modifyEmployeeInvalidID() {
         
@@ -46,9 +47,26 @@ public class TestEmployeeMethods {
         String oldPassword = "Invalid password";
         String password = "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b";
         boolean isManager = true;
-        int employeeID = 2;
+        int employeeID = 1;
             
         assertEquals(employeeMethods.modifyEmployee(employeeID, firstName, lastName, userName, oldPassword, password, isManager), "Employee not updated. Old password is incorrect for provided Employee ID." );
+
+    }
+    
+    @Test
+    public void modifyEmployeeValid() {
+        
+        EmployeeMethods employeeMethods = new EmployeeMethods();
+        
+        String firstName = "test";
+        String lastName = "guy";
+        String userName = "testGuy";
+        String oldPassword = "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b";
+        String password = "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b";
+        boolean isManager = true;
+        int employeeID = 1;
+            
+        assertEquals(employeeMethods.modifyEmployee(employeeID, firstName, lastName, userName, oldPassword, password, isManager), "Employee successfully updated." );
 
     }
     

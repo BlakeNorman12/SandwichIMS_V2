@@ -115,8 +115,8 @@ public class AddEmployeePanel extends JPanel {
             }
             
             try {
-                EmployeeMethods.addEmployee(firstName, lastName, username, password, isManager);
-                DarkTheme.showCustomDialog(mainFrame, "Employee added successfully.");
+
+                DarkTheme.showCustomDialog(mainFrame, EmployeeMethods.addEmployee(firstName, lastName, username, password, isManager));
                 
                 firstNameField.setText("");
                 lastNameField.setText("");

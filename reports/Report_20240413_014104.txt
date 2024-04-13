@@ -1,0 +1,22 @@
+Products Report:
+Product ID: 1, Product Name: Bread, Quantity: 25, Last Updated: 2024-04-08, Updated By: Jordan Levercom
+Product ID: 2, Product Name: Provolone, Quantity: 50, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 3, Product Name: Mayo, Quantity: 40, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 4, Product Name: Ham, Quantity: 35, Last Updated: 2024-04-08, Updated By: Jordan Levercom
+Product ID: 5, Product Name: Turkey, Quantity: 20, Last Updated: 2024-04-08, Updated By: Jordan Levercom
+Product ID: 7, Product Name: Peppers, Quantity: 28, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 8, Product Name: Cucumbers, Quantity: 20, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 9, Product Name: Cheddar, Quantity: 80, Last Updated: 2024-04-08, Updated By: Blake Norman
+Product ID: 10, Product Name: Swiss, Quantity: 5, Last Updated: 2024-04-09, Updated By: 123 123
+Product ID: 11, Product Name: American Cheese, Quantity: 50, Last Updated: 2024-04-09, Updated By: 123 123
+Product ID: 12, Product Name: Mustard, Quantity: 5, Last Updated: 2024-04-12, Updated By: 123 123
+Product ID: 13, Product Name: Napkins, Quantity: 100, Last Updated: 2024-04-12, Updated By: 123 123
+Product ID: 14, Product Name: 20oz Cup, Quantity: 50, Last Updated: 2024-04-13, Updated By: Sandwich Artist
+
+Employees Report:
+Employee ID: 1, Name: Jordan Levercom, Username: jlevercom, Manager: true
+Employee ID: 2, Name: Blake Norman, Username: bnorman, Manager: true
+Employee ID: 3, Name: Derrick Strover-Duncan, Username: dstrover, Manager: true
+Employee ID: 4, Name: Elias Gomez, Username: egomez, Manager: true
+Employee ID: 5, Name: 123 123, Username: 123, Manager: true
+Employee ID: 6, Name: Sandwich Artist, Username: 321, Manager: false

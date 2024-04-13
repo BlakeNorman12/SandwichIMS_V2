@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -190,12 +191,16 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
         inputPanel.add(productIdLabel);
         inputPanel.add(productIdField);
+        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(productNameLabel);
         inputPanel.add(productNameField);
+        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(productShelfLabel);
         inputPanel.add(productShelfField);
+        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(quantityLabel);
         inputPanel.add(quantityField);
+        inputPanel.add(Box.createVerticalStrut(10));
 
         addButton.addActionListener(e -> {
             if (productNameField.getText().trim().isEmpty() || quantityField.getText().trim().isEmpty()) {
@@ -251,6 +256,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
             ProductMethods.updateProduct(productId, productName, quantity, employee.getFirstName() + " " + employee.getLastName());
             productIdField.setText("");
             productNameField.setText("");
+            productShelfField.setText("");
             quantityField.setText("");
             updateTable();
             updateChart();
@@ -263,7 +269,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
 
         JPanel inputButtonPanel = new JPanel(new BorderLayout());
         inputButtonPanel.add(inputPanel, BorderLayout.NORTH);
-        inputButtonPanel.add(buttonPanel, BorderLayout.SOUTH);
+        inputButtonPanel.add(buttonPanel, BorderLayout.CENTER);
 
         return inputButtonPanel;
     }

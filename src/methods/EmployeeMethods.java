@@ -36,7 +36,7 @@ public class EmployeeMethods {
 
                 if (affectedRows > 0){
                     
-                    return "Employee successfully updated";
+                    return "Employee successfully updated.";
                 } else {
                     
                     return "An error occurred while updating the employee.";
