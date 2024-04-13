@@ -14,7 +14,7 @@ public class SQLConnection {
     // Change url to "...localhost:3306/testsandwichims" for testing
     private String url = "jdbc:mysql://localhost:3306/sandwichims";
     private String user = "root";
-    private String pass = "Abster001";
+    private String pass = "root";
     
     public String getURL() {
         
