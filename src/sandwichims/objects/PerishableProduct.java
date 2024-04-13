@@ -6,23 +6,22 @@ package sandwichims.objects;
 
 /**
  *
- * @author bnorm
+ * @author Jordan
  */
-public abstract class Product {
+public class PerishableProduct extends Product {
     
-    protected String productName;
+    private String shelfLife;
 
-    public Product(String productName) {
-        this.productName = productName;
+    public PerishableProduct(String productName, String shelfLife) {
+        super(productName);
+        this.shelfLife = shelfLife;
     }
     
-    public String getName() {
-        
-        return this.productName;
-    }
-    
+    @Override
     public String getShelfLife() {
         
-        return "None";
+        return this.shelfLife;
     }
+    
+    
 }

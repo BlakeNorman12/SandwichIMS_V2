@@ -239,9 +239,11 @@ public class ModifyEmployeePanel extends JPanel {
                     return;
                 }
                 
-                if (permissions == "Sandwich Artist"){
+                if (permissions.equals("Sandwich Artist")){
+                    
                     EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, false);
-                } else if (permissions == "Manager"){
+                } else if (permissions.equals("Manager")){
+                    
                     EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, true);                   
                 }
                 

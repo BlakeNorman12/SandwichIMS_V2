@@ -12,9 +12,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,6 +30,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.plot.PlotOrientation;
+import sandwichims.objects.*;
 
 /**
  *
@@ -80,6 +81,7 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
         model.addColumn("Product ID");
         model.addColumn("Product Name");
         model.addColumn("Quantity");
+        model.addColumn("Shelf-Life");
         model.addColumn("Last Updated");
         model.addColumn("Last Modified By");
 
@@ -93,10 +95,11 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
                 int productId = resultSet.getInt("productid");
                 String productName = resultSet.getString("productname");
                 int quantity = resultSet.getInt("quantity");
+                String shelfLife = resultSet.getString("shelflife");
                 String lastUpdated = resultSet.getString("lastupdated");
                 String updatedBy = resultSet.getString("updatedby");
 
-                model.addRow(new Object[]{productId, productName, quantity, lastUpdated, updatedBy});
+                model.addRow(new Object[]{productId, productName, quantity, shelfLife, lastUpdated, updatedBy});
             }
 
             resultSet.close();
@@ -173,19 +176,24 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
     private JPanel initManagementInput() {
         JTextField productIdField = new JTextField(10);
         JTextField productNameField = new JTextField(10);
+        JTextField productShelfField = new JTextField(10);
         JTextField quantityField = new JTextField(10);
         JLabel productIdLabel = new JLabel("Product ID:");
         JLabel productNameLabel = new JLabel("Product Name:");
+        JLabel productShelfLabel = new JLabel("Product Shelf-Life:");
         JLabel quantityLabel = new JLabel("Quantity:");
         JButton addButton = new JButton("Add");
         JButton deleteButton = new JButton("Delete");
         JButton updateButton = new JButton("Update");
 
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2));
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
         inputPanel.add(productIdLabel);
         inputPanel.add(productIdField);
         inputPanel.add(productNameLabel);
         inputPanel.add(productNameField);
+        inputPanel.add(productShelfLabel);
+        inputPanel.add(productShelfField);
         inputPanel.add(quantityLabel);
         inputPanel.add(quantityField);
 
@@ -195,8 +203,21 @@ public class ManageInventoryPanelNew extends javax.swing.JPanel {
                 return;
             }
             String productName = productNameField.getText();
+            String productShelf = productShelfField.getText();
+            Product product;
+            
+            if (productShelf.equals("")) {
+                
+                NonPerishableProductFactory nonPerishableFactory = new NonPerishableProductFactory();
+                product = nonPerishableFactory.createProduct(productName);
+            } else {
+                
+                PerishableProductFactory perishableFactory = new PerishableProductFactory();
+                product = perishableFactory.createProduct(productName, productShelf);
+            }
+            
             int quantity = Integer.parseInt(quantityField.getText());
-            ProductMethods.addProduct(productName, quantity, employee.getFirstName() + " " + employee.getLastName());
+            ProductMethods.addProduct(product, quantity, employee.getFirstName() + " " + employee.getLastName());
             productIdField.setText("");
             productNameField.setText("");
             quantityField.setText("");

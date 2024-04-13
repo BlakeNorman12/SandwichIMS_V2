@@ -6,8 +6,9 @@ package methods;
 
 import java.sql.*;
 import org.jfree.data.category.DefaultCategoryDataset;
-import sandwichims.objects.Employee.*;
 import java.sql.Date;
+import sandwichims.objects.PerishableProduct;
+import sandwichims.objects.Product;
 
 /**
  *
@@ -15,21 +16,24 @@ import java.sql.Date;
  */
 public class ProductMethods {
     
-    public static void addProduct(String productName, int quantity, String employee){
+    public static void addProduct(Product product, int quantity, String employee){
         
         SQLConnection connect = new SQLConnection();
-        Date LastUpdated = getDate();
+        String productName = product.getName();
+        Date lastUpdated = getDate();
+        String shelfLife = product.getShelfLife();
         
-        String sql = "INSERT INTO Product (ProductName, LastUpdated, quantity, UpdatedBy) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Product (ProductName, LastUpdated, quantity, UpdatedBy, shelfLife) VALUES (?, ?, ?, ?, ?)";
         
         if (quantity >= 0){
             try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
                 pstmt.setString(1, productName);
-                pstmt.setDate(2, LastUpdated);
+                pstmt.setDate(2, lastUpdated);
                 pstmt.setInt(3, quantity);
                 pstmt.setString(4, employee);
+                pstmt.setString(5, shelfLife);
 
 
                 int affectedRows = pstmt.executeUpdate();

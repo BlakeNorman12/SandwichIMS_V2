@@ -5,7 +5,6 @@
 package methods;
 
 import java.sql.*;
-import sandwichims.SimpleHash;
 
 /**
  *
@@ -13,7 +12,7 @@ import sandwichims.SimpleHash;
  */
 public class EmployeeMethods {
     
-    public static void modifyEmployee(int employeeID, String firstName, String lastName, String username, String oldPassword, String password, boolean isManager){
+    public static String modifyEmployee(int employeeID, String firstName, String lastName, String username, String oldPassword, String password, boolean isManager){
         
         
         boolean passwordVerified = verifyOldPassword(employeeID, oldPassword);
@@ -36,21 +35,22 @@ public class EmployeeMethods {
                 int affectedRows = pstmt.executeUpdate();
 
                 if (affectedRows > 0){
-                    System.out.println("Employee successfully updated");
+                    
+                    return "Employee successfully updated";
                 } else {
-                    System.out.println("An error occurred while updating the employee.");
+                    
+                    return "An error occurred while updating the employee.";
                 }
-
             } catch (SQLException e){
-                System.out.println("SQL ERROR: " + e.getMessage());
+                return "SQL ERROR: " + e.getMessage();
             }
         } else {
-            System.out.println("Employee not updated. Old password was incorrect.");
+            return "Employee not updated. Old password is incorrect for provided Employee ID.";
         }
     }
     
     
-    public static void addEmployee(String firstName, String lastName, String username, String password, boolean isManager){
+    public static String addEmployee(String firstName, String lastName, String username, String password, boolean isManager){
         
         SQLConnection connect = new SQLConnection();
         
@@ -68,16 +68,19 @@ public class EmployeeMethods {
             int affectedRows = pstmt.executeUpdate();
             
             if (affectedRows > 0) {
-                System.out.println("Employee added successfully.");
+                
+                return "Employee added successfully.";
             } else {
-                System.out.println("An error occurred. No employee was added.");
+                
+                return "An error occurred. No employee was added.";
             }
         } catch (SQLException e){
-            e.printStackTrace();
+            
+            return "SQL ERROR: " + e.getMessage();
         }
     }    
     
-    public static void deleteEmployee(int EmployeeID, String FirstName, String LastName){
+    public static String deleteEmployee(int EmployeeID, String FirstName, String LastName){
         
         SQLConnection connect = new SQLConnection();
         
@@ -93,12 +96,15 @@ public class EmployeeMethods {
             int affectedRows = pstmt.executeUpdate();
             
             if (affectedRows > 0){
-                System.out.println("Employee deleted successfully");
+                
+                return "Employee deleted successfully.";
             } else {
-                System.out.println("No employee found with the specified criteria");
+                
+                return "No employee found with the specified criteria.";
             }
         } catch (SQLException e){
-            e.printStackTrace();
+            
+            return "SQL ERROR: " + e.getMessage();
         }
     }
     

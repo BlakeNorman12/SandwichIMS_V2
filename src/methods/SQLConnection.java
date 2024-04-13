@@ -11,9 +11,10 @@ package methods;
 public class SQLConnection {
     
     // Change these variables to connect to your SQL server.
-    private String url = "jdbc:mysql://localhost:3306/SandwichIMS";
+    // Change url to "...localhost:3306/testsandwichims" for testing
+    private String url = "jdbc:mysql://localhost:3306/sandwichims";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "Abster001";
     
     public String getURL() {
         
