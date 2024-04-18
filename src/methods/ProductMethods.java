@@ -16,7 +16,17 @@ import sandwichims.objects.Product;
  */
 public class ProductMethods {
     
-    public static void addProduct(Product product, int quantity, String employee){
+    public static String addProduct(Product product, int quantity, String employee){
+        
+        // Verify input
+        if (employee.equals("")) {
+            
+            return "Please enter an employee.";
+        }
+        else if (quantity < 0) {
+            
+            return "Please enter a positive integer or 0.";
+        }
         
         SQLConnection connect = new SQLConnection();
         String productName = product.getName();
@@ -39,19 +49,26 @@ public class ProductMethods {
                 int affectedRows = pstmt.executeUpdate();
 
                 if (affectedRows > 0) {
-                    System.out.println("Product added successfully.");
+                    return "Product added successfully.";
                 } else {
-                    System.out.println("An error occurred. No product was added.");
+                    return "An error occurred. No product was added.";
                 }
             } catch (SQLException e){
-                e.printStackTrace();
+                return e.getMessage();
             }
         } else {
-            System.out.println("Cannot add negative product to the database. Operation cancelled.");
+            return "Cannot add negative product to the database. Operation cancelled.";
         }
     };
     
-    public static void deleteProduct(int itemID, String productName){
+    public static String deleteProduct(int itemID, String productName){
+        
+        // Verify input
+        if (productName.equals("")) {
+            
+            return "Please enter a product name.";
+        }
+        
         SQLConnection connect = new SQLConnection();
         
         String sql = "DELETE FROM Product WHERE ProductID = ? AND ProductName = ?";
@@ -65,16 +82,29 @@ public class ProductMethods {
             int affectedRows = pstmt.executeUpdate();
             
             if (affectedRows > 0){
-                System.out.println("Product deleted successfully");
+                
+                return "Product deleted successfully.";
             } else {
-                System.out.println("No product found with the specified criteria");
+                
+                return "No product found with the specified criteria.";
             }
         } catch (SQLException e){
-            e.printStackTrace();
+            
+            return e.getMessage();
         }
     };
     
-    public static void updateProduct(int itemID, String productName, int quantity, String employee){
+    public static String updateProduct(int itemID, String productName, int quantity, String employee){
+        
+        //Verify input
+        if (productName.equals("")) {
+            
+            return "Please enter a product name.";
+        }
+        else if (employee.equals("")) {
+            
+            return "Please enter an employee.";
+        }
         
         SQLConnection connect = new SQLConnection();
         Date LastUpdated = getDate();
@@ -94,16 +124,19 @@ public class ProductMethods {
                 int affectedRows = pstmt.executeUpdate();
 
                 if (affectedRows > 0){
-                    System.out.println("Product successfully updated");
+                    
+                    return "Product successfully updated.";
                 } else {
-                    System.out.println("An error occurred while updating the product.");
+                    
+                    return "An error occurred while updating the product.";
                 }
 
             } catch (SQLException e){
-                System.out.println("SQL ERROR: " + e.getMessage());
+                
+                return "SQL ERROR: " + e.getMessage();
             }
         } else {
-                System.out.println("Cannot add negative values to the database. Database operation canceled.");
+                return "Cannot add negative values to the database. Database operation canceled.";
         }
     };
     

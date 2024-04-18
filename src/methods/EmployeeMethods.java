@@ -14,6 +14,23 @@ public class EmployeeMethods {
     
     public static String modifyEmployee(int employeeID, String firstName, String lastName, String username, String oldPassword, String password, boolean isManager){
         
+        // Verify inputs
+        if (firstName.equals("")) {
+            
+            return "Please enter a first name.";
+        }
+        else if (lastName.equals("")) {
+            
+            return "Please enter a last name.";
+        }
+        else if (username.equals("")) {
+            
+            return "Please enter a username.";
+        }
+        else if (oldPassword.equals("")) {
+            
+            return "Please enter the current password.";
+        }
         
         boolean passwordVerified = verifyOldPassword(employeeID, oldPassword);
         
@@ -52,6 +69,24 @@ public class EmployeeMethods {
     
     public static String addEmployee(String firstName, String lastName, String username, String password, boolean isManager){
         
+        // Verify inputs
+        if (firstName.equals("")) {
+            
+            return "Please enter a first name.";
+        }
+        else if (lastName.equals("")) {
+            
+            return "Please enter a last name.";
+        }
+        else if (username.equals("")) {
+            
+            return "Please enter a username.";
+        }
+        else if (password.equals("")) {
+            
+            return "Please enter a password.";
+        }
+        
         SQLConnection connect = new SQLConnection();
         
         String sql = "INSERT INTO Employee (firstName, lastName, username, password, isManager) VALUES (?, ?, ?, ?, ?)";
@@ -80,18 +115,28 @@ public class EmployeeMethods {
         }
     }    
     
-    public static String deleteEmployee(int EmployeeID, String FirstName, String LastName){
+    public static String deleteEmployee(int EmployeeID, String firstName, String lastName){
+        
+        // Verify inputs
+        if (firstName.equals("")) {
+            
+            return "Please enter a first name.";
+        }
+        else if (lastName.equals("")) {
+            
+            return "Please enter a last name.";
+        }
         
         SQLConnection connect = new SQLConnection();
         
         String sql = "DELETE FROM Employee WHERE employeeID = ? AND firstName = ? AND lastName = ?";
         
         try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
-                PreparedStatement pstmt = conn.prepareStatement(sql)){
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
             
             pstmt.setInt(1, EmployeeID);
-            pstmt.setString(2, FirstName);
-            pstmt.setString(3, LastName);
+            pstmt.setString(2, firstName);
+            pstmt.setString(3, lastName);
             
             int affectedRows = pstmt.executeUpdate();
             
@@ -108,7 +153,33 @@ public class EmployeeMethods {
         }
     }
     
+    public static boolean verifyNewPassword(String password) {
+        
+        if (password.length() < 8) {
+            
+            return false;
+        }
+        
+        boolean hasSpecialCharacters = false;
+        for (char c : password.toCharArray()) {
+            
+            if (!Character.isLetterOrDigit(c)) {
+                
+                hasSpecialCharacters = true;
+                break;
+            }
+        }
+        
+        return hasSpecialCharacters;
+    }
+    
     public static boolean verifyOldPassword(int employeeID, String oldPassword){
+        
+        // Verify input
+        if (oldPassword.equals("")) {
+            
+            return false;
+        }
         
         SQLConnection connect = new SQLConnection();
         

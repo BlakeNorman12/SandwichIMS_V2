@@ -107,8 +107,8 @@ public class ModifyEmployeePanel extends JPanel {
         JTextField firstNameField = new JTextField(10);
         JTextField lastNameField = new JTextField(10);
         JTextField userNameField = new JTextField(10);
-        JTextField currentPasswordField = new JTextField(10);
-        JTextField newPasswordField = new JTextField(10);
+        JPasswordField currentPasswordField = new JPasswordField(10);
+        JPasswordField newPasswordField = new JPasswordField(10);
 
         JLabel employeeIdLabel = new JLabel("Employee ID:");
         JLabel firstNameLabel = new JLabel("First Name:");
@@ -170,12 +170,11 @@ public class ModifyEmployeePanel extends JPanel {
 
         updateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int employeeID = Integer.parseInt(employeeIdField.getText());
                 String firstName = firstNameField.getText();
                 String lastName = lastNameField.getText();
                 String username = userNameField.getText();
                 String currPassword = SimpleHash.hashPassword(currentPasswordField.getText().trim());
-                String newPassword = SimpleHash.hashPassword(newPasswordField.getText().trim());
+                String newPassword = newPasswordField.getText().trim();
 
                 String permissions;
                 if (sandwichArtistRadioButton.isSelected()) {
@@ -194,11 +193,30 @@ public class ModifyEmployeePanel extends JPanel {
                     DarkTheme.showCustomDialog(mainFrame, "Please fill out all input fields.");
                     return;
                 }
+                
+                // Convert ID string to integer after verifying that the field is not empty.
+                int employeeID = Integer.parseInt(employeeIdField.getText());
+                
+                if (!EmployeeMethods.verifyNewPassword(newPassword)) {
+                
+                    DarkTheme.showCustomDialog(mainFrame, "Password requirements not met. Password must contain at least 8 characters and at least one special character.");
+                    return;
+                }
+                
+                // Hash password before insertion into database.
+                newPassword = SimpleHash.hashPassword(newPasswordField.getText().trim());
 
+                // Check input permissions, call modifyEmployee, and display output in dialog box.
                 if (permissions.equals("Sandwich Artist")) {
-                    EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, false);
+                    
+                    DarkTheme.showCustomDialog(mainFrame, EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, false));
+                    populateTable();
+                    return;
                 } else if (permissions.equals("Manager")) {
-                    EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, true);
+                    
+                    DarkTheme.showCustomDialog(mainFrame, EmployeeMethods.modifyEmployee(employeeID, firstName, lastName, username, currPassword, newPassword, true));
+                    populateTable();
+                    return;
                 }
 
                 employeeIdField.setText("");

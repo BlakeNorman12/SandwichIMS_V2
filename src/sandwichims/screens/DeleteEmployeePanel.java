@@ -7,7 +7,6 @@ package sandwichims.screens;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import sandwichims.DarkTheme;
 import sandwichims.objects.Employee;
 import methods.EmployeeMethods;
@@ -97,8 +96,7 @@ public class DeleteEmployeePanel extends JPanel {
                         int employeeId = Integer.parseInt(employeeIdField.getText().trim());
                         String firstName = firstNameField.getText().trim();
                         String lastName = lastNameField.getText().trim();
-                        EmployeeMethods.deleteEmployee(employeeId, firstName, lastName);
-                        DarkTheme.showCustomDialog(mainFrame, "Employee deleted successfully.");
+                        DarkTheme.showCustomDialog(mainFrame, EmployeeMethods.deleteEmployee(employeeId, firstName, lastName));
 
                         employeeIdField.setText("");
                         firstNameField.setText("");

@@ -9,7 +9,6 @@ import java.sql.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
@@ -37,14 +36,14 @@ import sandwichims.objects.*;
  *
  * @author Jordan
  */
-public class ManageInventoryPanelNew extends javax.swing.JPanel {
+public class ManageInventoryPanel extends javax.swing.JPanel {
 
     private MainFrame mainFrame;
     private Employee employee;
     private JTable table;
     private DefaultCategoryDataset dataset;
 
-    public ManageInventoryPanelNew(MainFrame mainFrame, Employee employee) {
+    public ManageInventoryPanel(MainFrame mainFrame, Employee employee) {
 
         DarkTheme.applyTheme();
         this.mainFrame = mainFrame;

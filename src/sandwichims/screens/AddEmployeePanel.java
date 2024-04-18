@@ -7,10 +7,8 @@ package sandwichims.screens;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import sandwichims.DarkTheme;
 import sandwichims.objects.Employee;
-import java.sql.*;
 import methods.EmployeeMethods;
 import sandwichims.SimpleHash;
 
@@ -73,7 +71,7 @@ public class AddEmployeePanel extends JPanel {
         JTextField usernameField = new JTextField(20);
         addLabeledField("Username:", usernameField, gbc);
         
-        JTextField passwordField = new JTextField(20);
+        JPasswordField passwordField = new JPasswordField(20);
         addLabeledField("Password:", passwordField, gbc);
         
         // isManager question
@@ -106,13 +104,25 @@ public class AddEmployeePanel extends JPanel {
             String firstName = firstNameField.getText().trim();
             String lastName = lastNameField.getText().trim();
             String username = usernameField.getText().trim();
-            String password = SimpleHash.hashPassword(passwordField.getText().trim());
+            String password = passwordField.getText().trim();
+            
             boolean isManager = yesButton.isSelected();
             
+            // Verify fields are filled.
             if (firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() || password.isEmpty()){
                 DarkTheme.showCustomDialog(mainFrame, "Please fill in all fields.");
                 return;
             }
+            
+            // Verify password meets requirements
+            if (!EmployeeMethods.verifyNewPassword(password)) {
+                
+                DarkTheme.showCustomDialog(mainFrame, "Password requirements not met. Password must contain at least 8 characters and at least one special character.");
+                return;
+            }
+            
+            // Hash password before insertion into database
+            password = SimpleHash.hashPassword(passwordField.getText().trim());
             
             try {
 

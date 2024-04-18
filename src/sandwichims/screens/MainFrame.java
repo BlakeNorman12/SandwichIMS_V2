@@ -7,7 +7,6 @@ package sandwichims.screens;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 import sandwichims.objects.Employee;
@@ -18,10 +17,10 @@ import sandwichims.objects.Employee;
  */
 public class MainFrame extends JFrame {
     
-    CardLayout cardLayout = new CardLayout();
-    JPanel cardPanel = new JPanel(cardLayout);
-    Map<String, JPanel> panels = new HashMap<>();
-    Employee currentEmployee;
+    private CardLayout cardLayout = new CardLayout();
+    private JPanel cardPanel = new JPanel(cardLayout);
+    private Map<String, JPanel> panels = new HashMap<>();
+    private Employee employee;
 
     public MainFrame() {
         setTitle("Sandwich Restaurant Management System");
@@ -33,17 +32,17 @@ public class MainFrame extends JFrame {
     
     public void navigateTo(String panelName, Employee employee){
         if (employee != null) {
-            this.currentEmployee = employee; // Update the current employee
+            this.employee = employee; // Update the current employee
         }
         
         if (!panels.containsKey(panelName)) {
             // Instantiate the panel as needed and add it to the cardPanel and the map
-            JPanel panel = createPanel(panelName, currentEmployee);
+            JPanel panel = createPanel(panelName, employee);
             panels.put(panelName, panel);
             cardPanel.add(panel, panelName);
         } else {
             // If panel exists, update it with the current employee
-            updatePanel(panelName, currentEmployee);
+            updatePanel(panelName, employee);
         }
         
         cardLayout.show(cardPanel, panelName);
@@ -58,7 +57,7 @@ public class MainFrame extends JFrame {
             case "ManageEmployees":
                 return new ManageEmployeesPanel(this, employee);
             case "ManageInventory":
-                return new ManageInventoryPanelNew(this, employee);
+                return new ManageInventoryPanel(this, employee);
             case "ModifyEmployee":
                 return new ModifyEmployeePanel(this, employee);
             case "AddEmployee":
@@ -87,8 +86,8 @@ public class MainFrame extends JFrame {
                     }
                     break;
                 case "ManageInventory":
-                    if (panel instanceof ManageInventoryPanelNew) {
-                        ((ManageInventoryPanelNew) panel).setEmployee(employee);
+                    if (panel instanceof ManageInventoryPanel) {
+                        ((ManageInventoryPanel) panel).setEmployee(employee);
                     }
                     break;
                 case "ModifyEmployee":
@@ -126,7 +125,7 @@ public class MainFrame extends JFrame {
     public void logout() {
         
         panels.clear();
-        currentEmployee = null;
+        employee = null;
         
         cardPanel.removeAll();
         LoginPanel loginPanel = new LoginPanel(this);
