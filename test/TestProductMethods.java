@@ -4,7 +4,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import methods.EmployeeMethods;
 import methods.ProductMethods;
 import methods.SQLConnection;
 import org.junit.*;
@@ -115,7 +114,7 @@ public class TestProductMethods {
     @Test
     public void deleteProductNoName() {
         
-        int ID = 2;
+        int ID = 1;
         String productName = "";
         
         assertEquals("Please enter a product name.", ProductMethods.deleteProduct(ID, productName));
@@ -135,102 +134,132 @@ public class TestProductMethods {
     @Test
     public void deleteProductInvalidName() {
         
-        int ID = 2;
+        int ID = 1;
         String productName = "Wrong Test Product";
         
         assertEquals("No product found with the specified criteria.", ProductMethods.deleteProduct(ID, productName));
     }
     
-    /* P  = (productName != "") ^ (employee != "") ^ (itemID is in database) ^ (quantity >= 0) ^ (productName.length <= 50) ^ (employee.length <= 50)
+    /* P  = (productName != "") ^ (employee != "") ^ (itemID is in database) ^ (quantity >= 0) ^ (productName.length <= 50) ^ (employee.length <= 50) ^ (shelfLife.length <= 50)
     *  C1 = productName != ""
     *  C2 = employee != ""
     *  C3 = itemID is in database
     *  C4 = quantity >= 0
     *  C5 = productName.length <= 50
     *  C6 = employee.length <= 50
+    *  C7 = shelfLife.length <= 50
     */
     
-    // Updating product without a product name returns error message.
+    // Updating product without a product name returns error message. C1 = F.
     @Test
     public void updateProductNoProduct() {
         
-        int itemID = 2;
-        String productName = "";
+        PerishableProductFactory productFactory = new PerishableProductFactory();
+        
+        Product product = productFactory.createProduct("", "");
+        int itemID = 1;
         int quantity = 1;
         String employee = "Test Employee";
         
-        assertEquals("Please enter a product name.", ProductMethods.updateProduct(itemID, productName, quantity, employee));
+        assertEquals("Please enter a product name.", ProductMethods.updateProduct(itemID, product, quantity, employee));
     }
     
-    // Updating product without an employee name returns error message.
+    // Updating product without an employee name returns error message. C2 = F.
     @Test
     public void updateProductNoEmployee() {
         
-        int itemID = 2;
-        String productName = "Test Product";
+        PerishableProductFactory productFactory = new PerishableProductFactory();
+        
+        Product product = productFactory.createProduct("Test Product", "");
+        int itemID = 1;
         int quantity = 1;
         String employee = "";
+
         
-        assertEquals("Please enter an employee.", ProductMethods.updateProduct(itemID, productName, quantity, employee));
+        assertEquals("Please enter an employee.", ProductMethods.updateProduct(itemID, product, quantity, employee));
     }
     
-    // Updating product with invalid ID returns error message.
+    // Updating product with invalid ID returns error message. C3 = F.
     @Test
     public void updateProductInvalidID() {
         
+        PerishableProductFactory productFactory = new PerishableProductFactory();
+        
+        Product product = productFactory.createProduct("Test Product", "");
         int itemID = -1;
-        String productName = "Test Product";
         int quantity = 1;
         String employee = "Test Employee";
         
-        assertEquals("An error occurred while updating the product.", ProductMethods.updateProduct(itemID, productName, quantity, employee));
+        assertEquals("No product found for given ID.", ProductMethods.updateProduct(itemID, product, quantity, employee));
     }
     
-    // Updating product with invalid quantity returns error message.
+    // Updating product with invalid quantity returns error message. C4 = F
     @Test
     public void updateProductInvalidQuantity() {
         
-        int itemID = 2;
-        String productName = "Test Product";
+        PerishableProductFactory productFactory = new PerishableProductFactory();
+        
+        Product product = productFactory.createProduct("Test Product", "");
+        int itemID = 1;
         int quantity = -1;
         String employee = "Test Employee";
         
-        assertEquals("Cannot add negative values to the database. Database operation canceled.", ProductMethods.updateProduct(itemID, productName, quantity, employee));
+        assertEquals("Cannot add negative values to the database. Database operation canceled.", ProductMethods.updateProduct(itemID, product, quantity, employee));
     }
     
-    // Updating product with product name longer than 50 returns error message.
+    // Updating product with product name longer than 50 returns error message. C5 = F.
     @Test
     public void updateProductLongProduct() {
         
-        int itemID = 2;
-        String productName = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        PerishableProductFactory productFactory = new PerishableProductFactory();
+        
+        Product product = productFactory.createProduct("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "");
+        int itemID = 1;
         int quantity = 1;
         String employee = "Test Employee";
         
-        assertEquals("SQL ERROR: Data truncation: Data too long for column 'ProductName' at row 1", ProductMethods.updateProduct(itemID, productName, quantity, employee));
+        assertEquals("SQL ERROR: Data truncation: Data too long for column 'ProductName' at row 1", ProductMethods.updateProduct(itemID, product, quantity, employee));
     }
 
-    // Updating product with product name longer than 50 returns error message.
+    // Updating product with employee name longer than 50 returns error message. C6 = F
     @Test
     public void updateProductLongEmployee() {
         
-        int itemID = 2;
-        String productName = "Test Product";
+        PerishableProductFactory productFactory = new PerishableProductFactory();
+        
+        Product product = productFactory.createProduct("Test Product", "");
+        int itemID = 1;
         int quantity = 1;
         String employee = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
         
-        assertEquals("SQL ERROR: Data truncation: Data too long for column 'UpdatedBy' at row 1", ProductMethods.updateProduct(itemID, productName, quantity, employee));
+        assertEquals("SQL ERROR: Data truncation: Data too long for column 'UpdatedBy' at row 1", ProductMethods.updateProduct(itemID, product, quantity, employee));
     }
     
-    // Updating product with all characteristics true returns success message.
+    // Updating product with shelf life longer than 50 returns error message. C7 = F
     @Test
-    public void updateProductValid() {
+    public void updateProductLongShelf() {
         
-        int itemID = 2;
-        String productName = "Test Product";
+        PerishableProductFactory productFactory = new PerishableProductFactory();
+        
+        Product product = productFactory.createProduct("Test Product", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        int itemID = 1;
         int quantity = 1;
         String employee = "Test Employee";
         
-        assertEquals("Product successfully updated.", ProductMethods.updateProduct(itemID, productName, quantity, employee));
+        assertEquals("SQL ERROR: Data truncation: Data too long for column 'ShelfLife' at row 1", ProductMethods.updateProduct(itemID, product, quantity, employee));
+    }
+    
+    // Updating product with all characteristics true returns success message. P = T
+    @Test
+    public void updateProductValid() {
+        
+        PerishableProductFactory productFactory = new PerishableProductFactory();
+        
+        Product product = productFactory.createProduct("Test Product", "");
+        int itemID = 1;
+        int quantity = 1;
+        String employee = "Test Employee";
+        
+        assertEquals("Product successfully updated.", ProductMethods.updateProduct(itemID, product, quantity, employee));
     }
 }

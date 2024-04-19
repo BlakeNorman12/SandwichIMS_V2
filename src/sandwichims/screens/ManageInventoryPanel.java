@@ -220,13 +220,20 @@ public class ManageInventoryPanel extends javax.swing.JPanel {
                 product = perishableFactory.createProduct(productName, productShelf);
             }
             
-            int quantity = Integer.parseInt(quantityField.getText());
-            ProductMethods.addProduct(product, quantity, employee.getFirstName() + " " + employee.getLastName());
-            productIdField.setText("");
-            productNameField.setText("");
-            quantityField.setText("");
-            updateTable();
-            updateChart();
+            try {
+                int quantity = Integer.parseInt(quantityField.getText());
+                DarkTheme.showCustomDialog(mainFrame, ProductMethods.addProduct(product, quantity, employee.getFirstName() + " " + employee.getLastName()));
+                productIdField.setText("");
+                productNameField.setText("");
+                productShelfField.setText("");
+                quantityField.setText("");
+                updateTable();
+                updateChart();
+            }
+            catch (NumberFormatException ex) {
+                
+                DarkTheme.showCustomDialog(mainFrame, "Please enter a positive integer or 0.");
+            }
         });
 
         deleteButton.addActionListener(e -> {
@@ -236,29 +243,53 @@ public class ManageInventoryPanel extends javax.swing.JPanel {
             }
             String productName = productNameField.getText();
             int productId = Integer.parseInt(productIdField.getText());
-            ProductMethods.deleteProduct(productId, productName);
-            productIdField.setText("");
-            productNameField.setText("");
-            quantityField.setText("");
-            updateTable();
-            updateChart();
-        });
-
-        updateButton.addActionListener(e -> {
-            if (productIdField.getText().trim().isEmpty() || productNameField.getText().trim().isEmpty() || quantityField.getText().trim().isEmpty()) {
-                DarkTheme.showCustomDialog(mainFrame, "Please fill out all fields.");
-                return;
-            }
-            String productName = productNameField.getText();
-            int productId = Integer.parseInt(productIdField.getText());
-            int quantity = Integer.parseInt(quantityField.getText());
-            ProductMethods.updateProduct(productId, productName, quantity, employee.getFirstName() + " " + employee.getLastName());
+            DarkTheme.showCustomDialog(mainFrame, ProductMethods.deleteProduct(productId, productName));
             productIdField.setText("");
             productNameField.setText("");
             productShelfField.setText("");
             quantityField.setText("");
             updateTable();
             updateChart();
+        });
+
+        updateButton.addActionListener(e -> {
+            
+            if (productIdField.getText().trim().isEmpty() || productNameField.getText().trim().isEmpty() || quantityField.getText().trim().isEmpty()) {
+                DarkTheme.showCustomDialog(mainFrame, "Please fill out all fields (shelf life is optional).");
+                return;
+            }
+            
+            try {
+                String productName = productNameField.getText();
+                int productId = Integer.parseInt(productIdField.getText());
+                int quantity = Integer.parseInt(quantityField.getText());
+                String shelfLife = productShelfField.getText();
+                
+                Product product;
+            
+                if (shelfLife.equals("")) {
+
+                    NonPerishableProductFactory nonPerishableFactory = new NonPerishableProductFactory();
+                    product = nonPerishableFactory.createProduct(productName);
+                } else {
+
+                    PerishableProductFactory perishableFactory = new PerishableProductFactory();
+                    product = perishableFactory.createProduct(productName, shelfLife);
+                }
+
+                
+                DarkTheme.showCustomDialog(mainFrame, ProductMethods.updateProduct(productId, product, quantity,employee.getFirstName() + " " + employee.getLastName()));
+                productIdField.setText("");
+                productNameField.setText("");
+                productShelfField.setText("");
+                quantityField.setText("");
+                updateTable();
+                updateChart();
+            }
+            catch(NumberFormatException ex) {
+                
+                DarkTheme.showCustomDialog(mainFrame, "Please make sure product ID and quantity are positive integers or 0.");
+            }
         });
 
         JPanel buttonPanel = new JPanel();

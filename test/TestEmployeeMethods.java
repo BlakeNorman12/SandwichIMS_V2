@@ -295,7 +295,7 @@ public class TestEmployeeMethods {
         String password = "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b";
         boolean isManager = true;
         
-        assertEquals("SQL ERROR: Duplicate entry 'testGuy' for key 'employee.unique_username'", EmployeeMethods.addEmployee(firstName, lastName, userName, password, isManager));
+        assertEquals("SQL ERROR: Duplicate entry 'testGuy' for key 'employee.username'", EmployeeMethods.addEmployee(firstName, lastName, userName, password, isManager));
 
     }
     
@@ -374,7 +374,7 @@ public class TestEmployeeMethods {
         
         String firstName = "test";
         String lastName = "guy";
-        int employeeID = 2;
+        int employeeID = -1;
         
         assertEquals("No employee found with the specified criteria.", EmployeeMethods.deleteEmployee(employeeID, firstName, lastName));
 

@@ -94,7 +94,10 @@ public class ProductMethods {
         }
     };
     
-    public static String updateProduct(int itemID, String productName, int quantity, String employee){
+    public static String updateProduct(int itemID, Product product, int quantity, String employee){
+        
+        String productName = product.getName();
+        String shelfLife = product.getShelfLife();
         
         //Verify input
         if (productName.equals("")) {
@@ -109,7 +112,7 @@ public class ProductMethods {
         SQLConnection connect = new SQLConnection();
         Date LastUpdated = getDate();
 
-        String sql = "UPDATE Product SET ProductName = ?, LastUpdated = ?, quantity = ?, UpdatedBy = ? WHERE ProductID = ?";
+        String sql = "UPDATE Product SET ProductName = ?, LastUpdated = ?, quantity = ?, ShelfLife = ?, UpdatedBy = ? WHERE ProductID = ?";
 
         if (quantity >= 0){
             try (Connection conn = DriverManager.getConnection(connect.getURL(), connect.getUser(), connect.getPass());
@@ -118,8 +121,9 @@ public class ProductMethods {
                 pstmt.setString(1, productName);
                 pstmt.setDate(2, LastUpdated);
                 pstmt.setInt(3, quantity);
-                pstmt.setString(4, employee);
-                pstmt.setInt(5, itemID);
+                pstmt.setString(4, shelfLife);
+                pstmt.setString(5, employee);
+                pstmt.setInt(6, itemID);
 
                 int affectedRows = pstmt.executeUpdate();
 
@@ -128,7 +132,7 @@ public class ProductMethods {
                     return "Product successfully updated.";
                 } else {
                     
-                    return "An error occurred while updating the product.";
+                    return "No product found for given ID.";
                 }
 
             } catch (SQLException e){
